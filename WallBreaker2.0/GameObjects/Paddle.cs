@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace WallBreaker2.GameObjects
@@ -20,7 +16,7 @@ namespace WallBreaker2.GameObjects
         {
             this.CanvasWidth = canvasWidth;
             this.Speed = 8;
-            paddle = CreateRectangle();
+            paddle = CreateRectangle(Brushes.Black, Brushes.Green);
         }
         public void MovePaddle()
         {

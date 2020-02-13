@@ -18,13 +18,13 @@ namespace WallBreaker2.GameObjects
             this.Name = this.GetType().Name;
 
         }
-        internal Rectangle CreateRectangle()
+        internal Rectangle CreateRectangle(Brush stroke,Brush fill)
         {
             Rectangle rectangle = new Rectangle
             {
                 Name = this.Name,
-                Stroke = Brushes.Black,
-                Fill = Brushes.Green,
+                Stroke = stroke,
+                Fill = fill,
                 Width = this.Width,
                 Height = this.Height
             };

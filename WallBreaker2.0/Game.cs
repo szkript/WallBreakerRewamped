@@ -17,14 +17,18 @@ namespace WallBreaker2
 
         private bool Paused { get; set; } = false;
 
-        public Game(System.Windows.Controls.Canvas pongCanvas)
+        public Game(Canvas wallbreakerCanvas)
         {
-            paddle = new Paddle(150, 15, pongCanvas.Width);
+            InitGameComponents(wallbreakerCanvas);
+        }
 
-            paddle.paddle.SetValue(Canvas.LeftProperty, pongCanvas.Width/2 - paddle.Width/2);
-            paddle.paddle.SetValue(Canvas.TopProperty, (double)pongCanvas.Height - paddle.Height);
-            pongCanvas.Children.Add(paddle.paddle);
+        private void InitGameComponents(Canvas wallbreakerCanvas)
+        {
+            paddle = new Paddle(150, 15, wallbreakerCanvas.Width);
 
+            paddle.paddle.SetValue(Canvas.LeftProperty, wallbreakerCanvas.Width / 2 - paddle.Width / 2);
+            paddle.paddle.SetValue(Canvas.TopProperty, (double)wallbreakerCanvas.Height - paddle.Height);
+            wallbreakerCanvas.Children.Add(paddle.paddle);
         }
 
         internal void Start()
