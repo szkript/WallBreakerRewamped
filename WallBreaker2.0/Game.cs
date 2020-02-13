@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,28 +48,31 @@ namespace WallBreaker2
         }
         public void TogglePause(GameState pauseState)
         {
-            //MessageBoxResult result = MessageBox.Show("Email sent! \n Would you like to write an other email?", "New Email", MessageBoxButton.YesNo);
-            //switch (result)
-            //{
-            //    case MessageBoxResult.Yes:
-            //        EmailRecipientTxt.Text = "";
-            //        EmailSubjectTxt.Text = "";
-            //        EmailBodyTxt.Text = "";
-            //        return;
-            //    case MessageBoxResult.No:
-            //        Close();
-            //        break;
-            //}
+            TogglePause();
             switch (pauseState)
             {
                 case GameState.Exit:
+                    MessageBoxResult result = MessageBox.Show("Would you like to exit?", "Exit Game", MessageBoxButton.YesNo);
+                    switch (result)
+                    {
+                        case MessageBoxResult.Yes:
+                            StopGame();
+                            Application.Current.MainWindow.Close();
+                            break;
+                        case MessageBoxResult.No:
+                            TogglePause();
+                            break;
+                    }
                     break;
                 case GameState.SimplePause:
-                    TogglePause();
                     MessageBox.Show("Your Score :" + Score);
                     TogglePause();
                     break;
                 case GameState.GameOver:
+                    StopGame();
+                    break;
+                default:
+                    TogglePause();
                     break;
             }
         }

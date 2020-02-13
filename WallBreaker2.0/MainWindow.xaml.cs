@@ -47,6 +47,9 @@ namespace WallBreaker2
         {
             switch (e.Key)
             {
+                case Key.Escape:
+                    game.TogglePause(GameState.Exit);
+                    break;
                 case Key.Left:
                     game.paddle.MoveLeft = true;
                     break;
