@@ -8,20 +8,46 @@ using System.Windows.Shapes;
 
 namespace WallBreaker2.GameObjects
 {
-    class Paddle : GameObject
+    public class Paddle : GameObject
     {
-        private Rectangle paddle;
+        public Rectangle paddle;
         private int Speed;
-        internal bool MoveLeft { set; get; } = false;
-        internal bool MoveRight { set; get; } = false;
+        public bool MoveLeft { set; get; } = false;
+        public bool MoveRight { set; get; } = false;
+        internal double CanvasWidth;
 
-        public Paddle(double Width, double Height) : base(Width,Height)
+        public Paddle(double Width, double Height, double canvasWidth) : base(Width, Height)
         {
-            Console.WriteLine($"{Name} w: {Width}");
+            this.CanvasWidth = canvasWidth;
+            this.Speed = 8;
             paddle = CreateRectangle();
+            Console.WriteLine($"{Name} w: {Width}");
         }
-        public Rectangle GetPaddle() {
-            return paddle;
+        public void MovePaddle()
+        {
+            if (MoveLeft)
+            {
+                if ((double)paddle.GetValue(Canvas.LeftProperty) <= 0)
+                {
+                    paddle.SetValue(Canvas.LeftProperty, 0.0);
+                }
+                else
+                {
+                    paddle.SetValue(Canvas.LeftProperty, (double)paddle.GetValue(Canvas.LeftProperty) - Speed);
+                }
+            }
+            if (MoveRight)
+            {
+                if ((double)paddle.GetValue(Canvas.LeftProperty) + paddle.ActualWidth >= CanvasWidth)
+                {
+                    paddle.SetValue(Canvas.LeftProperty, CanvasWidth - paddle.ActualWidth);
+                }
+                else
+                {
+                    paddle.SetValue(Canvas.LeftProperty, (double)paddle.GetValue(Canvas.LeftProperty) + Speed);
+                }
+            }
+
         }
     }
 }

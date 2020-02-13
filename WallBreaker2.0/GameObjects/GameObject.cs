@@ -16,6 +16,7 @@ namespace WallBreaker2.GameObjects
             this.Width = width;
             this.Height = height;
             this.Name = this.GetType().Name;
+
         }
         internal Rectangle CreateRectangle()
         {
@@ -29,5 +30,18 @@ namespace WallBreaker2.GameObjects
             };
             return rectangle;
         }
+    }
+
+    public enum Axis
+    {
+        X,
+        Y
+    }
+    public enum Side
+    {
+        Top,
+        Right,
+        Bottom,
+        Left
     }
 }

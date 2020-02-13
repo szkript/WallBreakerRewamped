@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WallBreaker2"
         mc:Ignorable="d"
-        Title="MainWindow">
+        Title="MainWindow" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Canvas x:Name="PongCanvas" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Loaded="PongCanvas_Loaded">
+        <Canvas x:Name="WallbreakerCanvas" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Loaded="WallbreakerCanvas_Loaded">
             
         </Canvas>
     </Grid>
