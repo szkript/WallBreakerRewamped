@@ -16,7 +16,7 @@ namespace WallBreaker2
             paddle = new Paddle(150,20);
 
             paddle.GetPaddle().SetValue(Canvas.LeftProperty, pongCanvas.Width/2 - paddle.Width/2);
-            paddle.GetPaddle().SetValue(Canvas.TopProperty, (double)440);
+            paddle.GetPaddle().SetValue(Canvas.TopProperty, (double)pongCanvas.Height - paddle.Height);
             pongCanvas.Children.Add(paddle.GetPaddle());
 
         }

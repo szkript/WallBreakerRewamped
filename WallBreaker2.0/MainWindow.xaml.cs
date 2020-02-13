@@ -27,8 +27,9 @@ namespace WallBreaker2
         {
             Application.Current.MainWindow.Width = WindowWidth;
             Application.Current.MainWindow.Height = WindowHeight;
-            PongCanvas.Width = WindowWidth;
-            PongCanvas.Height = WindowHeight;
+            //for some reason the canvas and the window size aren't the same:/
+            PongCanvas.Width = Width -25;
+            PongCanvas.Height = Height -40;
         }
 
         private void CenterWindowOnScreen()
