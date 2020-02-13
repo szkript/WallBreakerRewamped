@@ -20,6 +20,7 @@ namespace WallBreaker2
         {
             SetWindowSize();
             CenterWindowOnScreen();
+            Game game = new Game(PongCanvas);
         }
 
         private void SetWindowSize()

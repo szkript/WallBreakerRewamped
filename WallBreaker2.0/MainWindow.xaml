@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Canvas x:Name="PongCanvas" Height="420" Margin="0,0,-0.4,0" VerticalAlignment="Top" Width="794" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Loaded="PongCanvas_Loaded">
+        <Canvas x:Name="PongCanvas" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Loaded="PongCanvas_Loaded">
             
         </Canvas>
     </Grid>
