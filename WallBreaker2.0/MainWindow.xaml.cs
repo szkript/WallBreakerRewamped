@@ -53,6 +53,9 @@ namespace WallBreaker2
                 case Key.Right:
                     game.paddle.MoveRight = true;
                     break;
+                case Key.Space:
+                    game.TogglePause(GameState.SimplePause);
+                    break;
             }
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)

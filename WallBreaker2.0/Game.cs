@@ -13,6 +13,9 @@ namespace WallBreaker2
     {
         private int Score;
         public Paddle paddle;
+
+        private bool Paused { get; set; } = false;
+
         public Game(System.Windows.Controls.Canvas pongCanvas)
         {
             paddle = new Paddle(150, 15, pongCanvas.Width);
@@ -30,17 +33,60 @@ namespace WallBreaker2
             //int ballStartingVerticalPosition = rowOfBricks * 37;
             //ball = new GameBall(Ball, PongCanvas.ActualWidth, PongCanvas.ActualHeight, ballStartingVerticalPosition);
 
-            //GameTimeManager.GameTime(DispatcherTimer_Tick);
+            GameTimeManager.GameTime(DispatcherTimer_Tick);
             GameTimeManager.StartGame(GameLoop);
         }
         private void GameLoop(object sender, EventArgs e)
         {
-            //if (Paused) { return; }
+            if (Paused) { return; }
 
             //CheckCollusion();
             //ball.Move();
             paddle.MovePaddle();
             //UpdateLiveScore();
         }
+        public void TogglePause(GameState pauseState)
+        {
+            switch (pauseState)
+            {
+                case GameState.Exit:
+                    break;
+                case GameState.SimplePause:
+                    TogglePause();
+                    break;
+                case GameState.GameOver:
+                    break;
+            }
+        }
+        private void TogglePause()
+        {
+            if (Paused == false)
+            {
+                Paused = true;
+                //MessageBox.Show("Your Score :" + score);
+                //Paused = false;
+            }
+            else if (Paused == true)
+            {
+                Paused = false;
+            }
+            Console.WriteLine(Paused);
+        }
+        private void StopGame()
+        {
+            GameTimeManager.StopGame();
+        }
+        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            if (!Paused)
+            {
+                Mouse.OverrideCursor = Cursors.None;
+            }
+            else
+            {
+                Mouse.OverrideCursor = Cursors.AppStarting;
+            }
+        }
+
     }
 }

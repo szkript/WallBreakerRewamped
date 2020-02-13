@@ -21,7 +21,6 @@ namespace WallBreaker2.GameObjects
             this.CanvasWidth = canvasWidth;
             this.Speed = 8;
             paddle = CreateRectangle();
-            Console.WriteLine($"{Name} w: {Width}");
         }
         public void MovePaddle()
         {
