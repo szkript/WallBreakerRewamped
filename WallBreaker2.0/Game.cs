@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using WallBreaker2.GameObjects;
@@ -33,7 +34,7 @@ namespace WallBreaker2
             //int ballStartingVerticalPosition = rowOfBricks * 37;
             //ball = new GameBall(Ball, PongCanvas.ActualWidth, PongCanvas.ActualHeight, ballStartingVerticalPosition);
 
-            GameTimeManager.GameTime(DispatcherTimer_Tick);
+            GameTimeManager.GameTime(GameTime_Tick);
             GameTimeManager.StartGame(GameLoop);
         }
         private void GameLoop(object sender, EventArgs e)
@@ -47,11 +48,25 @@ namespace WallBreaker2
         }
         public void TogglePause(GameState pauseState)
         {
+            //MessageBoxResult result = MessageBox.Show("Email sent! \n Would you like to write an other email?", "New Email", MessageBoxButton.YesNo);
+            //switch (result)
+            //{
+            //    case MessageBoxResult.Yes:
+            //        EmailRecipientTxt.Text = "";
+            //        EmailSubjectTxt.Text = "";
+            //        EmailBodyTxt.Text = "";
+            //        return;
+            //    case MessageBoxResult.No:
+            //        Close();
+            //        break;
+            //}
             switch (pauseState)
             {
                 case GameState.Exit:
                     break;
                 case GameState.SimplePause:
+                    TogglePause();
+                    MessageBox.Show("Your Score :" + Score);
                     TogglePause();
                     break;
                 case GameState.GameOver:
@@ -63,20 +78,17 @@ namespace WallBreaker2
             if (Paused == false)
             {
                 Paused = true;
-                //MessageBox.Show("Your Score :" + score);
-                //Paused = false;
             }
             else if (Paused == true)
             {
                 Paused = false;
             }
-            Console.WriteLine(Paused);
         }
         private void StopGame()
         {
             GameTimeManager.StopGame();
         }
-        private void DispatcherTimer_Tick(object sender, EventArgs e)
+        private void GameTime_Tick(object sender, EventArgs e)
         {
             if (!Paused)
             {
