@@ -10,6 +10,7 @@ namespace WallBreaker2
     {
         private int Score;
         public Paddle paddle;
+        public Ball ball;
 
         private bool Paused { get; set; } = false;
 
@@ -52,6 +53,7 @@ namespace WallBreaker2
             switch (pauseState)
             {
                 case GameState.Exit:
+                    //TODO: expand/create custom form for msgButtons(restart)
                     MessageBoxResult result = MessageBox.Show("Would you like to exit?", "Exit Game", MessageBoxButton.YesNo);
                     switch (result)
                     {
