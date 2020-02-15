@@ -65,6 +65,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GameObjects\Brick.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\GameObject.cs" />

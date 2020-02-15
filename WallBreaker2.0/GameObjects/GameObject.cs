@@ -6,6 +6,7 @@ namespace WallBreaker2.GameObjects
 {
     public abstract class GameObject
     {
+        internal Vector2 Position;
         internal double Width;
         internal double Height;
         internal string Name;

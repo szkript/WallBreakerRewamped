@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -11,10 +13,11 @@ namespace WallBreaker2.GameData
         private int Score;
         public Paddle paddle;
         public Ball ball;
+        private int RowOfBricks = 2;
         private int offset = 50;
-
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
+        private List<Brick> Bricks { get; set; }
         public Game(Canvas wallbreakerCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
@@ -34,6 +37,7 @@ namespace WallBreaker2.GameData
             WallbreakerCanvas.Children.Add(ball.ball);
             // Create bricks
             // Todo: create and init bricks
+            InitBricks(RowOfBricks);
         }
 
         internal void Start()
@@ -119,5 +123,25 @@ namespace WallBreaker2.GameData
             }
         }
 
+        private void InitBricks(int NumOfRows)
+        {
+            Bricks = new List<Brick>();
+            double posTop = 5;
+            for (int i = 0; i < NumOfRows; i++)
+            {
+                double posLeft = 5;
+                while (WallbreakerCanvas.Width > posLeft + 50)
+                {
+                    Vector2 position = new Vector2((int)posLeft, (int)posTop);
+                    Brick brick = new Brick(50,20,position);
+                    Canvas.SetLeft(brick.brick, (double)brick.Position.X);
+                    Canvas.SetTop(brick.brick, (double)brick.Position.Y);
+                    Bricks.Add(brick);
+                    WallbreakerCanvas.Children.Add(brick.brick);
+                    posLeft += brick.brick.Width + 5;
+                }
+                posTop += 30;
+            }
+        }
     }
 }
