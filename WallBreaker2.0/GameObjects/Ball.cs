@@ -21,12 +21,12 @@ namespace WallBreaker2.GameObjects
 
         public Vector2 Direction { get; set; }
 
-        public Ball(double width, double height, Canvas canvas) : base(width, height)
+        public Ball(double width, double height, Canvas canvas,double offset) : base(width, height)
         {
             ball = CreateRectangle(Brushes.Black, Brushes.Black);
             CanvasWidth = canvas.Width;
             CanvasHeight = canvas.Height;
-            Position = new Vector2((float)CanvasWidth / 2 - (float)ball.Width / 2, (float)CanvasHeight / 2 - 150);
+            Position = new Vector2((float)CanvasWidth / 2 - (float)ball.Width / 2, (float)offset);
             Velocity = new Vector2(BallBaseSpeed, BallBaseSpeed);
             Random random = new Random();
             int randomDirX = -100 + random.Next(0, 201);

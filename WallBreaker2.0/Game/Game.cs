@@ -14,7 +14,7 @@ namespace WallBreaker2.GameData
         public Paddle paddle;
         public Ball ball;
         private int RowOfBricks = 6;
-        private int offset = 50;
+        private double offset;
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
         private List<Brick> Bricks { get; set; }
@@ -25,18 +25,19 @@ namespace WallBreaker2.GameData
 
         private void InitGameComponents()
         {
+            offset = RowOfBricks * 30;
+
             // Create paddle
             paddle = new Paddle(150, 15, WallbreakerCanvas.Width);
             paddle.paddle.SetValue(Canvas.LeftProperty, WallbreakerCanvas.Width / 2 - paddle.Width / 2);
             paddle.paddle.SetValue(Canvas.TopProperty, (double)WallbreakerCanvas.Height - paddle.Height);
             // Create Ball
             WallbreakerCanvas.Children.Add(paddle.paddle);
-            ball = new Ball(20, 20, WallbreakerCanvas);
+            ball = new Ball(20, 20, WallbreakerCanvas,offset);
             ball.ball.SetValue(Canvas.LeftProperty, (double)ball.Position.X);
-            ball.ball.SetValue(Canvas.TopProperty, (double)ball.Position.Y + offset);
+            ball.ball.SetValue(Canvas.TopProperty, (double)ball.Position.Y);
             WallbreakerCanvas.Children.Add(ball.ball);
             // Create bricks
-            // Todo: create and init bricks
             InitBricks(RowOfBricks);
         }
 
