@@ -20,6 +20,7 @@ namespace WallBreaker2.GameObjects
         private int BallBaseSpeed = 6;
         internal Vector2 Position;
 
+        public Vector2 Direction { get; set; }
 
         public Ball(double width, double height, Canvas canvas) : base(width, height)
         {
@@ -28,6 +29,20 @@ namespace WallBreaker2.GameObjects
             CanvasHeight = canvas.Height;
             Position = new Vector2((float)CanvasWidth / 2 - (float)ball.Width / 2, (float)CanvasHeight / 2 - 150);
             Velocity = new Vector2(BallBaseSpeed, BallBaseSpeed);
+            Random random = new Random();
+            int randomDirX = -100 + random.Next(0, 201);
+            int randomDirY = 0 + random.Next(0, 201);
+            Direction = new Vector2(randomDirX, randomDirY);
+            Direction = Vector2.Normalize(Direction);
+        }
+        public void Move()
+        {
+            if (Position.X < 0 || Position.X > (CanvasWidth - (ball.Width + 5))) { Velocity.X = -Velocity.X; }
+            if (Position.Y < 0 || Position.Y > (CanvasWidth - (ball.Width + 5))) { Velocity.Y = -Velocity.Y; }
+
+            Position += Direction * Velocity;
+            ball.SetValue(Canvas.LeftProperty, (double)Position.X);
+            ball.SetValue(Canvas.TopProperty, (double)Position.Y);
         }
     }
 }

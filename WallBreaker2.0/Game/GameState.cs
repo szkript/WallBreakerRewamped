@@ -16,6 +16,7 @@ namespace WallBreaker2.GameData
         [Description("Exit")]
         Exit,
         [Description("Win")]
-        Win
+        Win,
+        Restart
     }
 }

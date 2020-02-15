@@ -60,6 +60,9 @@ namespace WallBreaker2
                 case Key.Space:
                     game.TogglePause(GameState.SimplePause);
                     break;
+                case Key.F2:
+                    game.TogglePause(GameState.Restart);
+                    break;
             }
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)

@@ -20,9 +20,10 @@ namespace WallBreaker2.GameData
             gameloopTimer.Tick += new EventHandler(gameLoop);
             gameloopTimer.Start();
         }
-        internal static void StopGame()
+        public static void StopGame()
         {
             gameloopTimer.Stop();
+            timer.Stop();
         }
 
         internal static void GameTime(Action<object, EventArgs> dispatcherTimer_Tick)

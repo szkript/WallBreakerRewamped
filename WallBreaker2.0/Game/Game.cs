@@ -14,24 +14,24 @@ namespace WallBreaker2.GameData
         private int offset = 50;
 
         private bool Paused { get; set; } = false;
-
+        private Canvas WallbreakerCanvas;
         public Game(Canvas wallbreakerCanvas)
         {
-            InitGameComponents(wallbreakerCanvas);
+            WallbreakerCanvas = wallbreakerCanvas;
         }
 
-        private void InitGameComponents(Canvas wallbreakerCanvas)
+        private void InitGameComponents()
         {
             // Create paddle
-            paddle = new Paddle(150, 15, wallbreakerCanvas.Width);
-            paddle.paddle.SetValue(Canvas.LeftProperty, wallbreakerCanvas.Width / 2 - paddle.Width / 2);
-            paddle.paddle.SetValue(Canvas.TopProperty, (double)wallbreakerCanvas.Height - paddle.Height);
+            paddle = new Paddle(150, 15, WallbreakerCanvas.Width);
+            paddle.paddle.SetValue(Canvas.LeftProperty, WallbreakerCanvas.Width / 2 - paddle.Width / 2);
+            paddle.paddle.SetValue(Canvas.TopProperty, (double)WallbreakerCanvas.Height - paddle.Height);
             // Create Ball
-            wallbreakerCanvas.Children.Add(paddle.paddle);
-            ball = new Ball(20, 20, wallbreakerCanvas);
+            WallbreakerCanvas.Children.Add(paddle.paddle);
+            ball = new Ball(20, 20, WallbreakerCanvas);
             ball.ball.SetValue(Canvas.LeftProperty, (double)ball.Position.X);
             ball.ball.SetValue(Canvas.TopProperty, (double)ball.Position.Y + offset);
-            wallbreakerCanvas.Children.Add(ball.ball);
+            WallbreakerCanvas.Children.Add(ball.ball);
             // Create bricks
             // Todo: create and init bricks
         }
@@ -39,9 +39,9 @@ namespace WallBreaker2.GameData
         internal void Start()
         {
             Score = 0;
+            InitGameComponents();
             //InitBricks(rowOfBricks);
             //int ballStartingVerticalPosition = rowOfBricks * 37;
-            //ball = new GameBall(Ball, PongCanvas.ActualWidth, PongCanvas.ActualHeight, ballStartingVerticalPosition);
 
             GameTimeManager.GameTime(GameTime_Tick);
             GameTimeManager.StartGame(GameLoop);
@@ -51,7 +51,7 @@ namespace WallBreaker2.GameData
             if (Paused) { return; }
 
             //CheckCollusion();
-            //ball.Move();
+            ball.Move();
             paddle.MovePaddle();
             //UpdateLiveScore();
         }
@@ -80,6 +80,12 @@ namespace WallBreaker2.GameData
                     break;
                 case GameState.GameOver:
                     StopGame();
+                    break;
+                case GameState.Restart:
+                    StopGame();
+                    WallbreakerCanvas.Children.Clear();
+                    Start();
+                    TogglePause();
                     break;
                 default:
                     TogglePause();
