@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Windows;
 using System.Windows.Input;
+using WallBreaker2.GameData;
 
 namespace WallBreaker2
 {

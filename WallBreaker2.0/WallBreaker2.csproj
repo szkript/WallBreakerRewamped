@@ -65,12 +65,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Game.cs" />
+    <Compile Include="Game\Game.cs" />
     <Compile Include="GameObjects\Ball.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Paddle.cs" />
-    <Compile Include="GameState.cs" />
-    <Compile Include="GameTimeManager.cs" />
+    <Compile Include="Game\GameState.cs" />
+    <Compile Include="Game\GameStatusEffect.cs" />
+    <Compile Include="Game\GameTimeManager.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

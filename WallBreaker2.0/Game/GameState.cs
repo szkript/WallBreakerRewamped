@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WallBreaker2
+namespace WallBreaker2.GameData
 {
     public enum GameState
     {

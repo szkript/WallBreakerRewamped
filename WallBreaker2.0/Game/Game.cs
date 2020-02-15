@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WallBreaker2.GameObjects;
 
-namespace WallBreaker2
+namespace WallBreaker2.GameData
 {
     public class Game
     {
@@ -21,11 +21,16 @@ namespace WallBreaker2
 
         private void InitGameComponents(Canvas wallbreakerCanvas)
         {
+            // Create paddle
             paddle = new Paddle(150, 15, wallbreakerCanvas.Width);
-
             paddle.paddle.SetValue(Canvas.LeftProperty, wallbreakerCanvas.Width / 2 - paddle.Width / 2);
             paddle.paddle.SetValue(Canvas.TopProperty, (double)wallbreakerCanvas.Height - paddle.Height);
+            // Create Ball
             wallbreakerCanvas.Children.Add(paddle.paddle);
+            ball = new Ball(25, 25, wallbreakerCanvas);
+            ball.ball.SetValue(Canvas.LeftProperty, wallbreakerCanvas.Width / 2 - ball.Width - 2);
+            ball.ball.SetValue(Canvas.TopProperty, wallbreakerCanvas.Height / 2 - 100);
+            wallbreakerCanvas.Children.Add(ball.ball);
         }
 
         internal void Start()
