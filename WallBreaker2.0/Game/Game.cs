@@ -13,7 +13,7 @@ namespace WallBreaker2.GameData
         private int Score;
         public Paddle paddle;
         public Ball ball;
-        private int RowOfBricks = 2;
+        private int RowOfBricks = 6;
         private int offset = 50;
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;

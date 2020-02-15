@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Canvas x:Name="WallbreakerCanvas" VerticalAlignment="Top" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Loaded="WallbreakerCanvas_Loaded">
+        <Canvas x:Name="WallbreakerCanvas" VerticalAlignment="Top" Background="Aqua" Loaded="WallbreakerCanvas_Loaded">
             
         </Canvas>
     </Grid>
