@@ -32,23 +32,32 @@ namespace WallBreaker2.GameData
 
                     break;
                 case (Side.Bottom):
-                    if (ball.Position.Y + ball.Height >= paddle.Position.Y)
+                    if (ContactsWithPaddle())
                     {
-                        if (paddle.Position.X < ball.Position.X && ball.Position.X < paddle.Position.X + paddle.Width)
-                        {
-                            ContactsWithPaddle();
-                        }
+                        ball.InverseDirection(paddle);
                     }
-                    if (ball.Position.Y + ball.Height >= WallbreakerCanvas.Height - paddle.Height / 2) { TogglePause(GameState.GameOver); }
+                    if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
                     break;
                 default:
                     break;
             }
         }
+        
 
-        private void ContactsWithPaddle()
+        private bool ContactsWithPaddle()
         {
-            ball.InverseDirection(paddle);
+            if (ball.Position.Y + ball.Height >= paddle.Position.Y)
+            {
+                if (paddle.Position.X < ball.Position.X && ball.Position.X < paddle.Position.X + paddle.Width)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        private bool ContactsWithFloor()
+        {
+            return ball.Position.Y + ball.Height >= WallbreakerCanvas.Height - paddle.Height / 2;
         }
 
         private void InitGameComponents()
