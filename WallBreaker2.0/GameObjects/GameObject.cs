@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -6,13 +7,15 @@ namespace WallBreaker2.GameObjects
 {
     public abstract class GameObject
     {
+        internal Canvas WallbreakerCanvas;
         internal Vector2 Position;
         internal double Width;
         internal double Height;
         internal string Name;
 
-        public GameObject(double width, double height)
+        public GameObject(double width, double height, Canvas wallbreakerCanvas)
         {
+            this.WallbreakerCanvas = wallbreakerCanvas;
             this.Width = width;
             this.Height = height;
             this.Name = this.GetType().Name;

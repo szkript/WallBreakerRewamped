@@ -10,14 +10,14 @@ namespace WallBreaker2.GameData
 {
     public class Game
     {
-        private int Score;
+        private List<Brick> Bricks { get; set; }
         public Paddle paddle;
         public Ball ball;
-        private int RowOfBricks = 6;
+        private int Score;
         private double offset;
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
-        private List<Brick> Bricks { get; set; }
+        private int RowOfBricks = 6;
         public Game(Canvas wallbreakerCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
@@ -26,14 +26,11 @@ namespace WallBreaker2.GameData
         private void InitGameComponents()
         {
             offset = RowOfBricks * 30;
-
             // Create paddle
-            paddle = new Paddle(150, 15, WallbreakerCanvas.Width);
-            paddle.paddle.SetValue(Canvas.LeftProperty, WallbreakerCanvas.Width / 2 - paddle.Width / 2);
-            paddle.paddle.SetValue(Canvas.TopProperty, (double)WallbreakerCanvas.Height - paddle.Height);
+            paddle = new Paddle(150, 15, WallbreakerCanvas);
+
             // Create Ball
-            WallbreakerCanvas.Children.Add(paddle.paddle);
-            ball = new Ball(20, 20, WallbreakerCanvas,offset);
+            ball = new Ball(20, 20, WallbreakerCanvas, offset);
             ball.ball.SetValue(Canvas.LeftProperty, (double)ball.Position.X);
             ball.ball.SetValue(Canvas.TopProperty, (double)ball.Position.Y);
             WallbreakerCanvas.Children.Add(ball.ball);
@@ -45,8 +42,6 @@ namespace WallBreaker2.GameData
         {
             Score = 0;
             InitGameComponents();
-            //InitBricks(rowOfBricks);
-            //int ballStartingVerticalPosition = rowOfBricks * 37;
 
             GameTimeManager.GameTime(GameTime_Tick);
             GameTimeManager.StartGame(GameLoop);
@@ -134,11 +129,8 @@ namespace WallBreaker2.GameData
                 while (WallbreakerCanvas.Width > posLeft + 50)
                 {
                     Vector2 position = new Vector2((int)posLeft, (int)posTop);
-                    Brick brick = new Brick(50,20,position);
-                    Canvas.SetLeft(brick.brick, (double)brick.Position.X);
-                    Canvas.SetTop(brick.brick, (double)brick.Position.Y);
+                    Brick brick = new Brick(50, 20, position, WallbreakerCanvas);
                     Bricks.Add(brick);
-                    WallbreakerCanvas.Children.Add(brick.brick);
                     posLeft += brick.brick.Width + 5;
                 }
                 posTop += 30;

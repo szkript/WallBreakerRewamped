@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Numerics;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -10,13 +11,16 @@ namespace WallBreaker2.GameObjects
         private int Speed;
         public bool MoveLeft { set; get; } = false;
         public bool MoveRight { set; get; } = false;
-        internal double CanvasWidth;
 
-        public Paddle(double Width, double Height, double canvasWidth) : base(Width, Height)
+        public Paddle(double width, double height, Canvas wallbreakerCanvas) : base(width, height, wallbreakerCanvas)
         {
-            this.CanvasWidth = canvasWidth;
+            Position = new Vector2((float)(wallbreakerCanvas.Width / 2 - Width / 2), (float)(wallbreakerCanvas.Height - Height));
             this.Speed = 8;
             paddle = CreateRectangle(Brushes.Black, Brushes.Green);
+            paddle.SetValue(Canvas.LeftProperty, (double)Position.X);
+            paddle.SetValue(Canvas.TopProperty, (double)Position.Y);
+            WallbreakerCanvas.Children.Add(paddle);
+
         }
         public void MovePaddle()
         {
@@ -33,9 +37,9 @@ namespace WallBreaker2.GameObjects
             }
             if (MoveRight)
             {
-                if ((double)paddle.GetValue(Canvas.LeftProperty) + paddle.ActualWidth >= CanvasWidth)
+                if ((double)paddle.GetValue(Canvas.LeftProperty) + paddle.ActualWidth >= WallbreakerCanvas.Width)
                 {
-                    paddle.SetValue(Canvas.LeftProperty, CanvasWidth - paddle.ActualWidth);
+                    paddle.SetValue(Canvas.LeftProperty, WallbreakerCanvas.Width - paddle.ActualWidth);
                 }
                 else
                 {

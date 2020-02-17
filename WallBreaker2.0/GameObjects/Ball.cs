@@ -14,19 +14,15 @@ namespace WallBreaker2.GameObjects
     public class Ball : GameObject
     {
         public Rectangle ball;
-        private double CanvasWidth;
-        private double CanvasHeight;
         private Vector2 Velocity;
         private int BallBaseSpeed = 6;
 
         public Vector2 Direction { get; set; }
 
-        public Ball(double width, double height, Canvas canvas,double offset) : base(width, height)
+        public Ball(double width, double height, Canvas wallbreakerCanvas, double offset) : base(width, height, wallbreakerCanvas)
         {
             ball = CreateRectangle(Brushes.Black, Brushes.Black);
-            CanvasWidth = canvas.Width;
-            CanvasHeight = canvas.Height;
-            Position = new Vector2((float)CanvasWidth / 2 - (float)ball.Width / 2, (float)offset);
+            Position = new Vector2((float)WallbreakerCanvas.Width / 2 - (float)ball.Width / 2, (float)offset);
             Velocity = new Vector2(BallBaseSpeed, BallBaseSpeed);
             Random random = new Random();
             int randomDirX = -100 + random.Next(0, 201);
@@ -36,8 +32,8 @@ namespace WallBreaker2.GameObjects
         }
         public void Move()
         {
-            if (Position.X < 0 || Position.X > (CanvasWidth - (ball.Width + 5))) { Velocity.X = -Velocity.X; }
-            if (Position.Y < 0 || Position.Y > (CanvasWidth - (ball.Width + 5))) { Velocity.Y = -Velocity.Y; }
+            if (Position.X < 0 || Position.X > (WallbreakerCanvas.Width - ball.Width)) { Velocity.X = -Velocity.X; }
+            if (Position.Y < 0 || Position.Y > (WallbreakerCanvas.Height - ball.Height)) { Velocity.Y = -Velocity.Y; }
 
             Position += Direction * Velocity;
             ball.SetValue(Canvas.LeftProperty, (double)Position.X);
