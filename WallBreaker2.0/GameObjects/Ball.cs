@@ -9,7 +9,7 @@ namespace WallBreaker2.GameObjects
     public class Ball : GameObject
     {
         private Vector2 Velocity;
-        private int BallBaseSpeed = 6;
+        private int BallBaseSpeed = 9;
 
         public Vector2 Direction;
 

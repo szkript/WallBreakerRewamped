@@ -49,7 +49,6 @@ namespace WallBreaker2.GameData
 
         private void ReRenderCanvas()
         {
-            if (Bricks.Count == 0) { }
 
             if (removableBrick != null)
             {
@@ -62,6 +61,7 @@ namespace WallBreaker2.GameData
                 WallbreakerCanvas.Children.Add(paddle.Rectangle);
                 WallbreakerCanvas.Children.Add(ball.Rectangle);
             }
+            if (Bricks.Count == 0) { TogglePause(GameState.Win); }
         }
 
         private bool ContactsWithBrick()
@@ -159,6 +159,9 @@ namespace WallBreaker2.GameData
                     WallbreakerCanvas.Children.Clear();
                     Start();
                     TogglePause();
+                    break;
+                case GameState.Win:
+                    MessageBox.Show("Kurvajóvagy");
                     break;
                 default:
                     TogglePause();
