@@ -127,7 +127,7 @@ namespace WallBreaker2.GameData
                     Vector2 position = new Vector2((int)posLeft, (int)posTop);
                     Brick brick = new Brick(50, 20, position, WallbreakerCanvas);
                     Bricks.Add(brick);
-                    posLeft += brick.brick.Width + 5;
+                    posLeft += brick.Rectangle.Width + 5;
                 }
                 posTop += 30;
             }

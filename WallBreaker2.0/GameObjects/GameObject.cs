@@ -9,6 +9,7 @@ namespace WallBreaker2.GameObjects
     {
         internal Canvas WallbreakerCanvas;
         internal Vector2 Position;
+        internal Rectangle Rectangle;
         internal double Width;
         internal double Height;
         internal string Name;
@@ -21,7 +22,7 @@ namespace WallBreaker2.GameObjects
             this.Name = this.GetType().Name;
 
         }
-        internal Rectangle CreateRectangle(Brush stroke,Brush fill)
+        internal Rectangle CreateRectangle(Brush stroke, Brush fill)
         {
             Rectangle rectangle = new Rectangle
             {
@@ -32,6 +33,12 @@ namespace WallBreaker2.GameObjects
                 Height = this.Height
             };
             return rectangle;
+        }
+        internal virtual void AddToCanvas(Rectangle rectangle)
+        {
+            rectangle.SetValue(Canvas.LeftProperty, (double)Position.X);
+            rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
+            WallbreakerCanvas.Children.Add(rectangle);
         }
     }
 
