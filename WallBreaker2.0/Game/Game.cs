@@ -24,7 +24,7 @@ namespace WallBreaker2.GameData
         }
         public void CheckCollusion()
         {
-            
+
             Side ballHeight = ball.Position.Y < offset ? Side.Top : Side.Bottom;
             switch (ballHeight)
             {
@@ -32,12 +32,25 @@ namespace WallBreaker2.GameData
 
                     break;
                 case (Side.Bottom):
-
+                    if (ball.Position.Y + ball.Height >= paddle.Position.Y)
+                    {
+                        if (paddle.Position.X < ball.Position.X && ball.Position.X < paddle.Position.X + paddle.Width)
+                        {
+                            ContactsWithPaddle();
+                        }
+                    }
+                    if (ball.Position.Y + ball.Height >= WallbreakerCanvas.Height - paddle.Height / 2) { TogglePause(GameState.GameOver); }
                     break;
                 default:
                     break;
             }
         }
+
+        private void ContactsWithPaddle()
+        {
+            ball.InverseDirection(paddle);
+        }
+
         private void InitGameComponents()
         {
             offset = RowOfBricks * 31;
@@ -90,6 +103,7 @@ namespace WallBreaker2.GameData
                     break;
                 case GameState.GameOver:
                     StopGame();
+                    Paused = false;
                     break;
                 case GameState.Restart:
                     StopGame();

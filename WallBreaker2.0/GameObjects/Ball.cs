@@ -10,7 +10,7 @@ namespace WallBreaker2.GameObjects
     {
         private Vector2 Velocity;
         private int BallBaseSpeed = 6;
-         
+
         public Vector2 Direction { get; set; }
 
         public Ball(double width, double height, Canvas wallbreakerCanvas, double offset) : base(width, height, wallbreakerCanvas)
@@ -32,6 +32,20 @@ namespace WallBreaker2.GameObjects
 
             Position += Direction * Velocity;
             Rectangle.SetValue(Canvas.LeftProperty, (double)Position.X);
+            Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
+        }
+
+        internal void InverseDirection(Paddle paddle)
+        {
+            double paddleMiddle = paddle.Position.X + paddle.Width / 2;
+            double ballMiddle = Position.X + Width / 2;
+            double positionDifference = ballMiddle - paddleMiddle;
+
+            Velocity.Y = Math.Abs(Velocity.Y);
+            Velocity.X = Math.Abs(Velocity.X);
+            Direction = new Vector2(1 * (float)positionDifference, (float)-Math.Abs(1000 / positionDifference));
+            Direction = Vector2.Normalize(Direction);
+            Position += Direction * Velocity;
             Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
         }
     }
