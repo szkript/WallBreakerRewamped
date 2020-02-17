@@ -20,7 +20,6 @@ namespace WallBreaker2.GameObjects
             this.Width = width;
             this.Height = height;
             this.Name = this.GetType().Name;
-
         }
         internal Rectangle CreateRectangle(Brush stroke, Brush fill)
         {

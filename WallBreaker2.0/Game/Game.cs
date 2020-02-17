@@ -22,7 +22,22 @@ namespace WallBreaker2.GameData
         {
             WallbreakerCanvas = wallbreakerCanvas;
         }
+        public void CheckCollusion()
+        {
+            
+            Side ballHeight = ball.Position.Y < offset ? Side.Top : Side.Bottom;
+            switch (ballHeight)
+            {
+                case (Side.Top):
 
+                    break;
+                case (Side.Bottom):
+
+                    break;
+                default:
+                    break;
+            }
+        }
         private void InitGameComponents()
         {
             offset = RowOfBricks * 31;
@@ -33,7 +48,6 @@ namespace WallBreaker2.GameData
             // Create bricks
             InitBricks(RowOfBricks);
         }
-
         internal void Start()
         {
             Score = 0;
@@ -50,21 +64,6 @@ namespace WallBreaker2.GameData
             ball.Move();
             paddle.MovePaddle();
             //UpdateLiveScore();
-        }
-        public void CheckCollusion()
-        {
-            string ballHeight = ball.Position.Y < offset ? "upper" : "lower";
-            switch (ballHeight)
-            {
-                case ("upper"):
-
-                    break;
-                case ("lower"):
-
-                    break;
-                default:
-              break;
-            }
         }
         public void TogglePause(GameState pauseState)
         {
@@ -129,7 +128,6 @@ namespace WallBreaker2.GameData
                 Mouse.OverrideCursor = Cursors.AppStarting;
             }
         }
-
         private void InitBricks(int NumOfRows)
         {
             Bricks = new List<Brick>();
