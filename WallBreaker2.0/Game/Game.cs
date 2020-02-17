@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,6 +19,7 @@ namespace WallBreaker2.GameData
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
         private int RowOfBricks = 6;
+
         public Game(Canvas wallbreakerCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
@@ -29,20 +31,35 @@ namespace WallBreaker2.GameData
             switch (ballHeight)
             {
                 case (Side.Top):
-
+                    if (ContactsWithBrick()) { Console.WriteLine("wurking"); }
                     break;
                 case (Side.Bottom):
-                    if (ContactsWithPaddle())
-                    {
-                        ball.InverseDirection(paddle);
-                    }
+                    if (ContactsWithPaddle()) { ball.InverseDirection(paddle); }
                     if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
                     break;
                 default:
                     break;
             }
         }
-        
+
+        private bool ContactsWithBrick()
+        {
+            foreach(Brick brick in Bricks)
+            {
+                if(ball.Position.Y <= brick.Position.Y + brick.Height)
+                {
+                    List<int> brickBottomSide = Enumerable.Range((int)brick.Position.X, (int)brick.Width).ToList();
+                    List<int> ballTopSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
+
+                    if (brickBottomSide.Any(x => ballTopSide.Contains(x)))
+                    {
+                        ball.InverseDirection(brick);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         private bool ContactsWithPaddle()
         {
@@ -59,7 +76,6 @@ namespace WallBreaker2.GameData
         {
             return ball.Position.Y + ball.Height >= WallbreakerCanvas.Height - paddle.Height / 2;
         }
-
         private void InitGameComponents()
         {
             offset = RowOfBricks * 31;
@@ -112,6 +128,7 @@ namespace WallBreaker2.GameData
                     break;
                 case GameState.GameOver:
                     StopGame();
+                    MessageBox.Show("Meghattá'");
                     Paused = false;
                     break;
                 case GameState.Restart:

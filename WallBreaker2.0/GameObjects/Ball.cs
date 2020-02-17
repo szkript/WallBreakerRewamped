@@ -11,7 +11,7 @@ namespace WallBreaker2.GameObjects
         private Vector2 Velocity;
         private int BallBaseSpeed = 6;
 
-        public Vector2 Direction { get; set; }
+        public Vector2 Direction;
 
         public Ball(double width, double height, Canvas wallbreakerCanvas, double offset) : base(width, height, wallbreakerCanvas)
         {
@@ -47,6 +47,34 @@ namespace WallBreaker2.GameObjects
             Direction = Vector2.Normalize(Direction);
             Position += Direction * Velocity;
             Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
+        }
+
+        internal void InverseDirection(Brick brick)
+        {
+            InverseDirection(Axis.Y);
+        }
+        public Vector2 PeekingMove()
+        {
+            Vector2 fake = new Vector2(Velocity.X, Velocity.Y);
+
+            if (Position.X <= 0 || Position.X >= (WallbreakerCanvas.Width - (Width + 5))) { fake.X = -Velocity.X; }
+            if (Position.Y <= 0 || Position.Y >= (WallbreakerCanvas.Height - (Height + 5))) { fake.Y = -Velocity.Y; }
+
+            return Position + (Direction * fake);
+        }
+        private void InverseDirection(Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.X:
+                    Direction.X = Direction.X > Direction.X + 1 ? Direction.X : -Direction.X;
+                    break;
+                case Axis.Y:
+                    Direction.Y = Direction.Y > Direction.Y + 1 ? Direction.Y : -Direction.Y;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

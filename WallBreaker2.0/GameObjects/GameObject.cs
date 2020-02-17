@@ -16,10 +16,10 @@ namespace WallBreaker2.GameObjects
 
         public GameObject(double width, double height, Canvas wallbreakerCanvas)
         {
-            this.WallbreakerCanvas = wallbreakerCanvas;
-            this.Width = width;
-            this.Height = height;
-            this.Name = this.GetType().Name;
+            WallbreakerCanvas = wallbreakerCanvas;
+            Width = width;
+            Height = height;
+            Name = GetType().Name;
         }
         internal Rectangle CreateRectangle(Brush stroke, Brush fill)
         {
