@@ -28,12 +28,8 @@ namespace WallBreaker2.GameData
             offset = RowOfBricks * 30;
             // Create paddle
             paddle = new Paddle(150, 15, WallbreakerCanvas);
-
             // Create Ball
             ball = new Ball(20, 20, WallbreakerCanvas, offset);
-            ball.ball.SetValue(Canvas.LeftProperty, (double)ball.Position.X);
-            ball.ball.SetValue(Canvas.TopProperty, (double)ball.Position.Y);
-            WallbreakerCanvas.Children.Add(ball.ball);
             // Create bricks
             InitBricks(RowOfBricks);
         }

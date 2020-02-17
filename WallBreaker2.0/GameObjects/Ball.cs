@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using WallBreaker2.GameData;
 
 namespace WallBreaker2.GameObjects
 {
@@ -29,6 +24,9 @@ namespace WallBreaker2.GameObjects
             int randomDirY = 0 + random.Next(0, 201);
             Direction = new Vector2(randomDirX, randomDirY);
             Direction = Vector2.Normalize(Direction);
+            ball.SetValue(Canvas.LeftProperty, (double)Position.X);
+            ball.SetValue(Canvas.TopProperty, (double)Position.Y);
+            WallbreakerCanvas.Children.Add(ball);
         }
         public void Move()
         {
