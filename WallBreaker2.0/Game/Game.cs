@@ -19,6 +19,7 @@ namespace WallBreaker2.GameData
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
         private int RowOfBricks = 6;
+        private Brick removableBrick;
 
         public Game(Canvas wallbreakerCanvas)
         {
@@ -31,7 +32,11 @@ namespace WallBreaker2.GameData
             switch (ballHeight)
             {
                 case (Side.Top):
-                    if (ContactsWithBrick()) { Console.WriteLine("wurking"); }
+                    if (ContactsWithBrick())
+                    {
+                        ball.InverseDirection(removableBrick);
+                        ReRenderCanvas();
+                    }
                     break;
                 case (Side.Bottom):
                     if (ContactsWithPaddle()) { ball.InverseDirection(paddle); }
@@ -42,18 +47,36 @@ namespace WallBreaker2.GameData
             }
         }
 
+        private void ReRenderCanvas()
+        {
+            if (Bricks.Count == 0) { }
+
+            if (removableBrick != null)
+            {
+                Bricks.Remove(removableBrick);
+                WallbreakerCanvas.Children.Clear();
+                foreach (Brick brick in Bricks)
+                {
+                    WallbreakerCanvas.Children.Add(brick.Rectangle);
+                }
+                WallbreakerCanvas.Children.Add(paddle.Rectangle);
+                WallbreakerCanvas.Children.Add(ball.Rectangle);
+            }
+        }
+
         private bool ContactsWithBrick()
         {
-            foreach(Brick brick in Bricks)
+            removableBrick = null;
+            foreach (Brick brick in Bricks)
             {
-                if(ball.Position.Y <= brick.Position.Y + brick.Height)
+                if (ball.Position.Y <= brick.Position.Y + brick.Height)
                 {
                     List<int> brickBottomSide = Enumerable.Range((int)brick.Position.X, (int)brick.Width).ToList();
                     List<int> ballTopSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
 
                     if (brickBottomSide.Any(x => ballTopSide.Contains(x)))
                     {
-                        ball.InverseDirection(brick);
+                        removableBrick = brick;
                         return true;
                     }
                 }
