@@ -43,7 +43,7 @@ namespace WallBreaker2.GameObjects
                     Rectangle.SetValue(Canvas.LeftProperty, (double)Rectangle.GetValue(Canvas.LeftProperty) + Speed);
                 }
             }
-
+            Position.X = (float)(double)Rectangle.GetValue(Canvas.LeftProperty);
         }
     }
 }

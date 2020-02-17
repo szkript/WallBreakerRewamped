@@ -25,11 +25,11 @@ namespace WallBreaker2.GameData
 
         private void InitGameComponents()
         {
-            offset = RowOfBricks * 30;
+            offset = RowOfBricks * 31;
             // Create paddle
             paddle = new Paddle(150, 15, WallbreakerCanvas);
             // Create Ball
-            ball = new Ball(20, 20, WallbreakerCanvas, offset);
+            ball = new Ball(10, 10, WallbreakerCanvas, offset);
             // Create bricks
             InitBricks(RowOfBricks);
         }
@@ -46,10 +46,25 @@ namespace WallBreaker2.GameData
         {
             if (Paused) { return; }
 
-            //CheckCollusion();
+            CheckCollusion();
             ball.Move();
             paddle.MovePaddle();
             //UpdateLiveScore();
+        }
+        public void CheckCollusion()
+        {
+            string ballHeight = ball.Position.Y < offset ? "upper" : "lower";
+            switch (ballHeight)
+            {
+                case ("upper"):
+
+                    break;
+                case ("lower"):
+
+                    break;
+                default:
+              break;
+            }
         }
         public void TogglePause(GameState pauseState)
         {

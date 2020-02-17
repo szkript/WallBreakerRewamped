@@ -10,7 +10,7 @@ namespace WallBreaker2.GameObjects
     {
         private Vector2 Velocity;
         private int BallBaseSpeed = 6;
-
+         
         public Vector2 Direction { get; set; }
 
         public Ball(double width, double height, Canvas wallbreakerCanvas, double offset) : base(width, height, wallbreakerCanvas)
