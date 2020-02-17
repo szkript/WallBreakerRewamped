@@ -15,7 +15,7 @@ namespace WallBreaker2.GameObjects
         public Paddle(double width, double height, Canvas wallbreakerCanvas) : base(width, height, wallbreakerCanvas)
         {
             Position = new Vector2((float)(wallbreakerCanvas.Width / 2 - Width / 2), (float)(wallbreakerCanvas.Height - Height));
-            this.Speed = 8;
+            Speed = 8;
             paddle = CreateRectangle(Brushes.Black, Brushes.Green);
             paddle.SetValue(Canvas.LeftProperty, (double)Position.X);
             paddle.SetValue(Canvas.TopProperty, (double)Position.Y);
