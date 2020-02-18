@@ -40,7 +40,7 @@ namespace WallBreaker2.GameData
                     break;
                 case (Side.Bottom):
                     if (ContactsWithPaddle()) { ball.InverseDirection(paddle); }
-                    if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
+                    //if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
                     break;
                 default:
                     break;
@@ -158,6 +158,7 @@ namespace WallBreaker2.GameData
                     StopGame();
                     WallbreakerCanvas.Children.Clear();
                     Start();
+                    GameStatusEffect.SlowMotionIsReady = true;
                     TogglePause();
                     break;
                 case GameState.Win:

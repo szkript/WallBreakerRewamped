@@ -10,6 +10,8 @@ namespace WallBreaker2.GameData
         private static DispatcherTimer slowMotionCooldownTimer;
         private static DispatcherTimer slowMotionTimer;
         private static DispatcherTimer gameStartDelay;
+        private static readonly double SlowTimeAmmount = 0.25;
+        private static readonly double SlowMotionCooldown = 2;
 
         internal static void StartGame(Action<object, EventArgs> gameLoop)
         {
@@ -36,30 +38,31 @@ namespace WallBreaker2.GameData
             timer.Start();
         }
 
-        internal static void SlowMotionCooldownStart(int slowMotionCooldownTime, Action<object, EventArgs> slowMotion_tick)
+        internal static void SlowMotionCooldownStart(Action<object, EventArgs> slowMotion_tick)
         {
+            GameStatusEffect.SlowMotionIsReady = true;
             slowMotionCooldownTimer = new DispatcherTimer();
-            slowMotionCooldownTimer.Interval = TimeSpan.FromSeconds(slowMotionCooldownTime);
+            slowMotionCooldownTimer.Interval = TimeSpan.FromSeconds(SlowMotionCooldown);
             slowMotionCooldownTimer.Tick += new EventHandler(slowMotion_tick);
             slowMotionCooldownTimer.Start();
         }
         internal static void SlowMotionCoolDownStop()
         {
             slowMotionCooldownTimer.Stop();
+            GameStatusEffect.SlowMotionIsReady = true;
         }
 
-        internal static void SlowMotionTimeStart(Action<object, EventArgs> slowMotionTimer_Tick, double slowTimeAmmount)
+        internal static void SlowMotionTimeStart(Action<object, EventArgs> slowMotionTimer_Tick)
         {
             slowMotionTimer = new DispatcherTimer();
-            slowMotionTimer.Interval = TimeSpan.FromSeconds(slowTimeAmmount);
+            slowMotionTimer.Interval = TimeSpan.FromSeconds(SlowTimeAmmount);
             slowMotionTimer.Tick += new EventHandler(slowMotionTimer_Tick);
             slowMotionTimer.Start();
-            Console.WriteLine($"{slowTimeAmmount} sec");
+            Console.WriteLine($"{SlowTimeAmmount} sec");
         }
         internal static void SlowMotionTimeStop()
         {
             slowMotionTimer.Stop();
         }
-
     }
 }

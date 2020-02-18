@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using WallBreaker2.GameData;
 
 namespace WallBreaker2.GameObjects
 {
@@ -74,6 +75,49 @@ namespace WallBreaker2.GameObjects
             {
                 InverseDirection(Axis.Y);
             }
+        }
+
+        internal void SlowMotion()
+        {
+            if (GameStatusEffect.SlowMotionIsReady)
+            {
+                GameTimeManager.SlowMotionTimeStart(SlowMotionTimer_Tick);
+                GameTimeManager.SlowMotionCooldownStart(SlowMotionCooldown_tick);
+                GameStatusEffect.SlowMotionIsReady = false;
+                DecreaseSpeedBy(BallBaseSpeed - GameStatusEffect.SlowMotionSpeed);
+            }
+        }
+        void SlowMotionCooldown_tick(object sender, EventArgs e)
+        {
+            GameTimeManager.SlowMotionCoolDownStop();
+        }
+        void SlowMotionTimer_Tick(object sender, EventArgs e)
+        {
+            GameTimeManager.SlowMotionTimeStop();
+            IncreaseSpeedBy(BallBaseSpeed - GameStatusEffect.SlowMotionSpeed);
+        }
+        internal void Nitro()
+        {
+            if (GameStatusEffect.NitroIsOn) { return; }
+
+            IncreaseSpeedBy(GameStatusEffect.NitroSpeed);
+            GameStatusEffect.NitroIsOn = true;
+        }
+        internal void NitroOff()
+        {
+            DecreaseSpeedBy(GameStatusEffect.NitroSpeed);
+            GameStatusEffect.NitroIsOn = false;
+        }
+
+        private void IncreaseSpeedBy(int nitroSpeed)
+        {
+            Velocity.X = Velocity.X > 0 ? Velocity.X += nitroSpeed : Velocity.X -= nitroSpeed;
+            Velocity.Y = Velocity.Y > 0 ? Velocity.Y += nitroSpeed : Velocity.Y -= nitroSpeed;
+        }
+        private void DecreaseSpeedBy(int nitroSpeed)
+        {
+            Velocity.X = Velocity.X > 0 ? Velocity.X -= nitroSpeed : Velocity.X += nitroSpeed;
+            Velocity.Y = Velocity.Y > 0 ? Velocity.Y -= nitroSpeed : Velocity.Y += nitroSpeed;
         }
         public Vector2 PeekingMove()
         {

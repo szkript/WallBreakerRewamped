@@ -31,6 +31,7 @@ namespace WallBreaker2
             Application.Current.MainWindow.Width = WindowWidth;
             Application.Current.MainWindow.Height = WindowHeight;
             //for some reason the canvas and the window size aren't the same:/
+            //Further investigation needs.
             WallbreakerCanvas.Width = Width -25;
             WallbreakerCanvas.Height = Height -40;
         }
@@ -63,6 +64,12 @@ namespace WallBreaker2
                 case Key.F2:
                     game.TogglePause(GameState.Restart);
                     break;
+                case Key.Up:
+                    game.ball.Nitro();
+                    break;
+                case Key.Down:
+                    game.ball.SlowMotion();
+                    break;
             }
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)
@@ -74,6 +81,9 @@ namespace WallBreaker2
                     break;
                 case Key.Right:
                     game.paddle.MoveRight = false;
+                    break;
+                case Key.Up:
+                    game.ball.NitroOff();
                     break;
             }
         }
