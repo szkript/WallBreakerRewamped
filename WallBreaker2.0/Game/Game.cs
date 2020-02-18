@@ -157,8 +157,8 @@ namespace WallBreaker2.GameData
                 case GameState.Restart:
                     StopGame();
                     WallbreakerCanvas.Children.Clear();
+                    GameTimeManager.StopAllTimer();
                     Start();
-                    GameStatusEffect.SlowMotionIsReady = true;
                     TogglePause();
                     break;
                 case GameState.Win:

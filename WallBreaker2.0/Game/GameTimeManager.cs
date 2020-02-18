@@ -10,7 +10,7 @@ namespace WallBreaker2.GameData
         private static DispatcherTimer slowMotionCooldownTimer;
         private static DispatcherTimer slowMotionTimer;
         private static DispatcherTimer gameStartDelay;
-        private static readonly double SlowTimeAmmount = 0.25;
+        private static readonly double SlowTimeAmmount = 1;
         private static readonly double SlowMotionCooldown = 2;
 
         internal static void StartGame(Action<object, EventArgs> gameLoop)
@@ -45,13 +45,14 @@ namespace WallBreaker2.GameData
             slowMotionCooldownTimer.Interval = TimeSpan.FromSeconds(SlowMotionCooldown);
             slowMotionCooldownTimer.Tick += new EventHandler(slowMotion_tick);
             slowMotionCooldownTimer.Start();
+            Console.WriteLine("Slowmo cd is on");
         }
         internal static void SlowMotionCoolDownStop()
         {
             slowMotionCooldownTimer.Stop();
             GameStatusEffect.SlowMotionIsReady = true;
+            Console.WriteLine("Slowmo cd expired");
         }
-
         internal static void SlowMotionTimeStart(Action<object, EventArgs> slowMotionTimer_Tick)
         {
             slowMotionTimer = new DispatcherTimer();
@@ -63,6 +64,14 @@ namespace WallBreaker2.GameData
         internal static void SlowMotionTimeStop()
         {
             slowMotionTimer.Stop();
+        }
+        public static void StopAllTimer()
+        {
+            slowMotionCooldownTimer.Stop();
+            timer.Start();
+            slowMotionTimer.Stop();
+            gameloopTimer.Stop();
+            GameStatusEffect.SlowMotionIsReady = true;
         }
     }
 }
