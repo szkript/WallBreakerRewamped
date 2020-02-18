@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,7 +11,7 @@ namespace WallBreaker2.GameObjects
     public class Ball : GameObject
     {
         private Vector2 Velocity;
-        private int BallBaseSpeed = 9;
+        private int BallBaseSpeed = 5;
 
         public Vector2 Direction;
 
@@ -49,9 +51,29 @@ namespace WallBreaker2.GameObjects
             Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
         }
 
-        internal void InverseDirection(Brick brick)
+        public void InverseDirection(Brick brick)
         {
-            InverseDirection(Axis.Y);
+            List<int> ballRightSide = Enumerable.Range((int)(Position.X + Width), (int)Height).ToList();
+            List<int> brickLeftSide = Enumerable.Range((int)brick.Position.X, (int)brick.Height).ToList();
+
+            List<int> ballLeftSide = Enumerable.Range((int)Position.X, (int)Height).ToList();
+            List<int> brickRightSide = Enumerable.Range((int)(brick.Position.X + brick.Width), (int)brick.Height).ToList();
+
+            List<int> ballBottomSide = Enumerable.Range((int)(Position.Y + Height), (int)Width).ToList();
+            List<int> brickTopSide = Enumerable.Range((int)brick.Position.Y, (int)brick.Width).ToList();
+
+            List<int> brickBottomSide = Enumerable.Range((int)brick.Position.X, (int)brick.Width).ToList();
+            List<int> ballTopSide = Enumerable.Range((int)Position.X, (int)Width).ToList();
+
+
+            if (brickLeftSide.Any(x => ballRightSide.Contains(x)) || brickRightSide.Any(x => ballLeftSide.Contains(x)))
+            {
+                InverseDirection(Axis.X);
+            }
+            else if (brickTopSide.Any(x => ballBottomSide.Contains(x)) || brickBottomSide.Any(x => ballTopSide.Contains(x)))
+            {
+                InverseDirection(Axis.Y);
+            }
         }
         public Vector2 PeekingMove()
         {
@@ -71,8 +93,6 @@ namespace WallBreaker2.GameObjects
                     break;
                 case Axis.Y:
                     Direction.Y = Direction.Y > Direction.Y + 1 ? Direction.Y : -Direction.Y;
-                    break;
-                default:
                     break;
             }
         }
