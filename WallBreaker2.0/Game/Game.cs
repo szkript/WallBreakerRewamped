@@ -5,6 +5,8 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 using WallBreaker2.GameObjects;
 
 namespace WallBreaker2.GameData
@@ -20,11 +22,67 @@ namespace WallBreaker2.GameData
         private Canvas WallbreakerCanvas;
         private int RowOfBricks = 6;
         private Brick removableBrick;
+        private int sliderCounter;
+        DispatcherTimer slideTimer;
 
         public Game(Canvas wallbreakerCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
         }
+        internal void Start()
+        {
+            Score = 0;
+            InitGameComponents();
+            SlideController(ScreenSlideRight);
+            SlideController(ScreenSlideLeft);
+
+            //GameTimeManager.GameTime(GameTime_Tick);
+            //GameTimeManager.StartGame(GameLoop);
+        }
+
+        private void ScreenSlideRight(object sender, EventArgs e)
+        {
+            if (sliderCounter <= WallbreakerCanvas.Width * 0.10)
+            {
+                foreach (Rectangle item in WallbreakerCanvas.Children)
+                {
+                    item.SetValue(Canvas.LeftProperty, (double)item.GetValue(Canvas.LeftProperty) + sliderCounter);
+                }
+                Console.WriteLine(WallbreakerCanvas.Width * 0.10);
+                sliderCounter++;
+                Console.WriteLine(sliderCounter);
+                return;
+            }
+            slideTimer.Stop();
+            slideTimer = new DispatcherTimer();
+            Console.WriteLine("Slide done");
+
+        }
+        private void ScreenSlideLeft(object sender, EventArgs e)
+        {
+            if (sliderCounter >= WallbreakerCanvas.Width * 0.10)
+            {
+                foreach (Rectangle item in WallbreakerCanvas.Children)
+                {
+                    item.SetValue(Canvas.LeftProperty, (double)item.GetValue(Canvas.LeftProperty) + sliderCounter);
+                }
+                Console.WriteLine(WallbreakerCanvas.Width * 0.10);
+                sliderCounter--;
+                Console.WriteLine(sliderCounter);
+                return;
+            }
+            slideTimer.Stop();
+            Console.WriteLine("Slide done");
+
+        }
+        private void SlideController(Action<object, EventArgs> action)
+        {
+            slideTimer = new DispatcherTimer();
+            slideTimer.Interval = TimeSpan.FromSeconds(0.10);
+            slideTimer.Tick += new EventHandler(action);
+            slideTimer.Start();
+        }
+
         public void CheckCollusion()
         {
 
@@ -108,14 +166,6 @@ namespace WallBreaker2.GameData
             ball = new Ball(10, 10, WallbreakerCanvas, offset);
             // Create bricks
             InitBricks(RowOfBricks);
-        }
-        internal void Start()
-        {
-            Score = 0;
-            InitGameComponents();
-
-            GameTimeManager.GameTime(GameTime_Tick);
-            GameTimeManager.StartGame(GameLoop);
         }
         private void GameLoop(object sender, EventArgs e)
         {
