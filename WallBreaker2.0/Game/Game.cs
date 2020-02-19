@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using WallBreaker2.GameObjects;
 
+
 namespace WallBreaker2.GameData
 {
     public class Game
@@ -29,25 +30,16 @@ namespace WallBreaker2.GameData
         {
             WallbreakerCanvas = wallbreakerCanvas;
             MenuCanvas = menuCanvas;
-        }
-        internal void Start()
-        {
-            InitMenu();   
+            InitMenu();
         }
         private void InitMenu()
         {
-            StackPanel sp = new StackPanel
-            {
-                Name = "myPanel",
-                Orientation = Orientation.Horizontal
-            };
-            Button newBtn = new Button();
-
-            newBtn.Content = "Single PLayer";
-            newBtn.Name = "Button";
-            newBtn.Click += new RoutedEventHandler(StartButton_Click);
-            sp.Children.Add(newBtn);
-            MenuCanvas.Children.Add(sp);
+            StackPanel menu = (StackPanel)MenuCanvas.FindName("MenuPanel");
+            Button button = new Button();
+            button.Name = "SinglePlayer";
+            button.Content = "Single Player";
+            button.Click += new RoutedEventHandler(StartButton_Click);
+            menu.Children.Add(button);
         }
         private void StartGame()
         {
@@ -192,7 +184,6 @@ namespace WallBreaker2.GameData
             CheckCollusion();
             ball.Move();
             paddle.MovePaddle();
-            //UpdateLiveScore();
         }
         public void TogglePause(GameState pauseState)
         {

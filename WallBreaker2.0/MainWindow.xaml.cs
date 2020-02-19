@@ -23,7 +23,6 @@ namespace WallBreaker2
             SetWindowSize();
             CenterWindowOnScreen();
             game = new Game(WallbreakerCanvas, MenuCanvas);
-            game.Start();
         }
 
         private void SetWindowSize()
@@ -86,5 +85,6 @@ namespace WallBreaker2
                     break;
             }
         }
+
     }
 }

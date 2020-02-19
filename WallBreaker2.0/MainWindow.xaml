@@ -8,9 +8,13 @@
         Title="MainWindow" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" WindowStartupLocation="CenterScreen">
     <Grid>
         <Canvas x:Name="WallbreakerCanvas" VerticalAlignment="Top" Background="Aqua" Loaded="WallbreakerCanvas_Loaded">
-            
+
         </Canvas>
         <Canvas x:Name="MenuCanvas" HorizontalAlignment="Center">
+
+            <StackPanel x:Name="MenuPanel" HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="348" Canvas.Left="-174" Canvas.Top="63">
+                
+            </StackPanel>
             
         </Canvas>
     </Grid>
