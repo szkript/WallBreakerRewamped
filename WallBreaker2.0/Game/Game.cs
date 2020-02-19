@@ -32,9 +32,9 @@ namespace WallBreaker2.GameData
         {
             Score = 0;
             InitGameComponents();
-            SlideController(ScreenSlideRight);
 
-
+            GameTimeManager.GameTime(GameTime_Tick);
+            GameTimeManager.StartGame(GameLoop);
         }
 
         private void ScreenSlideRight(object sender, EventArgs e)
@@ -52,7 +52,6 @@ namespace WallBreaker2.GameData
             DispatcherTimer senderTimer = (DispatcherTimer)sender;
             senderTimer.Stop();
             Console.WriteLine("Slide done");
-            SlideController(ScreenSlideLeft);
         }
         private void ScreenSlideLeft(object sender, EventArgs e)
         {
@@ -69,8 +68,7 @@ namespace WallBreaker2.GameData
             DispatcherTimer senderTimer = (DispatcherTimer)sender;
             senderTimer.Stop();
             Console.WriteLine("Slide done");
-            GameTimeManager.GameTime(GameTime_Tick);
-            GameTimeManager.StartGame(GameLoop);
+
 
         }
         private void SlideController(Action<object, EventArgs> action)
