@@ -20,23 +20,47 @@ namespace WallBreaker2.GameData
         private double offset;
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
+        private Canvas MenuCanvas;
         private int RowOfBricks = 6;
         private Brick removableBrick;
         private double sliderCounter;
 
-        public Game(Canvas wallbreakerCanvas)
+        public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
+            MenuCanvas = menuCanvas;
         }
         internal void Start()
         {
-            Score = 0;
+            InitMenu();   
+        }
+        private void InitMenu()
+        {
+            StackPanel sp = new StackPanel
+            {
+                Name = "myPanel",
+                Orientation = Orientation.Horizontal
+            };
+            Button newBtn = new Button();
+
+            newBtn.Content = "Single PLayer";
+            newBtn.Name = "Button";
+            newBtn.Click += new RoutedEventHandler(StartButton_Click);
+            sp.Children.Add(newBtn);
+            MenuCanvas.Children.Add(sp);
+        }
+        private void StartGame()
+        {
+            MenuCanvas.Visibility = Visibility.Hidden;
             InitGameComponents();
 
             GameTimeManager.GameTime(GameTime_Tick);
             GameTimeManager.StartGame(GameLoop);
         }
-
+        void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+            StartGame();
+        }
         private void ScreenSlideRight(object sender, EventArgs e)
         {
             if (sliderCounter <= 15)
@@ -51,7 +75,7 @@ namespace WallBreaker2.GameData
             }
             DispatcherTimer senderTimer = (DispatcherTimer)sender;
             senderTimer.Stop();
-            Console.WriteLine("Slide done");
+            Console.WriteLine("Slide Right done");
         }
         private void ScreenSlideLeft(object sender, EventArgs e)
         {
@@ -67,9 +91,7 @@ namespace WallBreaker2.GameData
             }
             DispatcherTimer senderTimer = (DispatcherTimer)sender;
             senderTimer.Stop();
-            Console.WriteLine("Slide done");
-
-
+            Console.WriteLine("Slide Left done");
         }
         private void SlideController(Action<object, EventArgs> action)
         {
@@ -204,7 +226,7 @@ namespace WallBreaker2.GameData
                     StopGame();
                     WallbreakerCanvas.Children.Clear();
                     GameTimeManager.StopAllTimer();
-                    Start();
+                    StartGame();
                     TogglePause();
                     break;
                 case GameState.Win:

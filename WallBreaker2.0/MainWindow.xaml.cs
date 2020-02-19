@@ -22,7 +22,7 @@ namespace WallBreaker2
         {
             SetWindowSize();
             CenterWindowOnScreen();
-            game = new Game(WallbreakerCanvas);
+            game = new Game(WallbreakerCanvas, MenuCanvas);
             game.Start();
         }
 
@@ -35,7 +35,6 @@ namespace WallBreaker2
             WallbreakerCanvas.Width = Width -25;
             WallbreakerCanvas.Height = Height -40;
         }
-
         private void CenterWindowOnScreen()
         {
             double screenWidth = SystemParameters.PrimaryScreenWidth;

@@ -67,11 +67,18 @@ namespace WallBreaker2.GameData
         }
         public static void StopAllTimer()
         {
-            slowMotionCooldownTimer.Stop();
-            timer.Start();
-            slowMotionTimer.Stop();
-            gameloopTimer.Stop();
-            GameStatusEffect.SlowMotionIsReady = true;
+            try
+            {
+                slowMotionCooldownTimer.Stop();
+                timer.Start();
+                slowMotionTimer.Stop();
+                gameloopTimer.Stop();
+                GameStatusEffect.SlowMotionIsReady = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

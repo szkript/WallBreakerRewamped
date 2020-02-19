@@ -10,5 +10,8 @@
         <Canvas x:Name="WallbreakerCanvas" VerticalAlignment="Top" Background="Aqua" Loaded="WallbreakerCanvas_Loaded">
             
         </Canvas>
+        <Canvas x:Name="MenuCanvas" HorizontalAlignment="Center">
+            
+        </Canvas>
     </Grid>
 </Window>
