@@ -33,7 +33,7 @@ namespace WallBreaker2.GameObjects
             };
             return rectangle;
         }
-        internal virtual void AddToCanvas(Rectangle rectangle)
+        internal void AddToCanvas(Rectangle rectangle)
         {
             rectangle.SetValue(Canvas.LeftProperty, (double)Position.X);
             rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);

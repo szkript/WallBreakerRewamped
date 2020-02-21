@@ -17,7 +17,6 @@ namespace WallBreaker2.GameData
         private List<Brick> Bricks { get; set; }
         public Paddle paddle;
         public Ball ball;
-        private int Score;
         private double offset;
         private bool Paused { get; set; } = false;
         private Canvas WallbreakerCanvas;
@@ -117,7 +116,6 @@ namespace WallBreaker2.GameData
 
         private void ReRenderCanvas()
         {
-
             if (removableBrick != null)
             {
                 Bricks.Remove(removableBrick);
@@ -131,18 +129,14 @@ namespace WallBreaker2.GameData
             }
             if (Bricks.Count == 0) { TogglePause(GameState.Win); }
         }
-
         private bool ContactsWithBrick()
         {
             removableBrick = null;
             foreach (Brick brick in Bricks)
             {
-                if (ball.Position.Y <= brick.Position.Y + brick.Height)
+                if(brick.Position.X <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width)
                 {
-                    List<int> brickBottomSide = Enumerable.Range((int)brick.Position.X, (int)brick.Width).ToList();
-                    List<int> ballTopSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
-
-                    if (brickBottomSide.Any(x => ballTopSide.Contains(x)))
+                    if(brick.Position.Y + brick.Height >= ball.Position.Y && ball.Position.Y >= brick.Position.Y)
                     {
                         removableBrick = brick;
                         return true;
@@ -205,7 +199,7 @@ namespace WallBreaker2.GameData
                     }
                     break;
                 case GameState.SimplePause:
-                    MessageBox.Show("Your Score :" + Score);
+                    MessageBox.Show("Your Score :");
                     TogglePause();
                     break;
                 case GameState.GameOver:

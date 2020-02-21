@@ -12,7 +12,7 @@ namespace WallBreaker2.GameObjects
     public class Ball : GameObject
     {
         private Vector2 Velocity;
-        private int BallBaseSpeed = 4;
+        private int BallBaseSpeed = 5;
 
         public Vector2 Direction;
 
@@ -54,27 +54,9 @@ namespace WallBreaker2.GameObjects
 
         public void InverseDirection(Brick brick)
         {
-            List<int> ballRightSide = Enumerable.Range((int)(Position.X + Width), (int)Height).ToList();
-            List<int> brickLeftSide = Enumerable.Range((int)brick.Position.X, (int)brick.Height).ToList();
-
-            List<int> ballLeftSide = Enumerable.Range((int)Position.X, (int)Height).ToList();
-            List<int> brickRightSide = Enumerable.Range((int)(brick.Position.X + brick.Width), (int)brick.Height).ToList();
-
-            List<int> ballBottomSide = Enumerable.Range((int)(Position.Y + Height), (int)Width).ToList();
-            List<int> brickTopSide = Enumerable.Range((int)brick.Position.Y, (int)brick.Width).ToList();
-
-            List<int> brickBottomSide = Enumerable.Range((int)brick.Position.X, (int)brick.Width).ToList();
-            List<int> ballTopSide = Enumerable.Range((int)Position.X, (int)Width).ToList();
-
-
-            if (brickLeftSide.Any(x => ballRightSide.Contains(x)) || brickRightSide.Any(x => ballLeftSide.Contains(x)))
-            {
-                InverseDirection(Axis.X);
-            }
-            else if (brickTopSide.Any(x => ballBottomSide.Contains(x)) || brickBottomSide.Any(x => ballTopSide.Contains(x)))
-            {
-                InverseDirection(Axis.Y);
-            }
+            //TODO: Szar az egész
+            //InverseDirection(Axis.X);
+            InverseDirection(Axis.Y);
         }
 
         internal void SlowMotion()
