@@ -31,8 +31,8 @@ namespace WallBreaker2
             Application.Current.MainWindow.Height = WindowHeight;
             //for some reason the canvas and the window size aren't the same:/
             //Further investigation needs.
-            WallbreakerCanvas.Width = Width -25;
-            WallbreakerCanvas.Height = Height -40;
+            WallbreakerCanvas.Width = Width - 25;
+            WallbreakerCanvas.Height = Height - 40;
         }
         private void CenterWindowOnScreen()
         {

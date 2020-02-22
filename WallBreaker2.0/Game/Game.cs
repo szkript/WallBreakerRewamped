@@ -22,7 +22,6 @@ namespace WallBreaker2.GameData
         private Canvas WallbreakerCanvas;
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
-        private Brick removableBrick;
 
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
@@ -51,18 +50,14 @@ namespace WallBreaker2.GameData
         {
             StartGame();
         }
-       
-
         public void CheckCollusion()
         {
-
             Side ballHeight = ball.Position.Y < offset ? Side.Top : Side.Bottom;
             switch (ballHeight)
             {
                 case (Side.Top):
                     if (ContactsWithBrick())
                     {
-                        ball.InverseDirection(removableBrick);
                         ReRenderCanvas();
                     }
                     break;
@@ -74,39 +69,40 @@ namespace WallBreaker2.GameData
                     break;
             }
         }
-
         private void ReRenderCanvas()
         {
-            if (removableBrick != null)
+            WallbreakerCanvas.Children.Clear();
+            foreach (Brick brick in Bricks)
             {
-                Bricks.Remove(removableBrick);
-                WallbreakerCanvas.Children.Clear();
-                foreach (Brick brick in Bricks)
-                {
-                    WallbreakerCanvas.Children.Add(brick.Rectangle);
-                }
-                WallbreakerCanvas.Children.Add(paddle.Rectangle);
-                WallbreakerCanvas.Children.Add(ball.Rectangle);
+                WallbreakerCanvas.Children.Add(brick.Rectangle);
             }
+            WallbreakerCanvas.Children.Add(paddle.Rectangle);
+            WallbreakerCanvas.Children.Add(ball.Rectangle);
+
             if (Bricks.Count == 0) { TogglePause(GameState.Win); }
         }
         private bool ContactsWithBrick()
         {
-            removableBrick = null;
             foreach (Brick brick in Bricks)
             {
-                if(brick.Position.X <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width)
+                if (brick.Position.X <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width)
                 {
-                    if(brick.Position.Y + brick.Height >= ball.Position.Y && ball.Position.Y >= brick.Position.Y)
+                    if (brick.Position.Y + brick.Height >= ball.Position.Y && ball.Position.Y >= brick.Position.Y)
                     {
-                        removableBrick = brick;
+                        ball.InverseDirection(brick);
+                        Bricks.Remove(brick);
+                        return true;
+                    }
+                    else if (brick.Position.Y <= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height <= brick.Position.Y)
+                    {
+                        ball.InverseDirection(brick);
+                        Bricks.Remove(brick);
                         return true;
                     }
                 }
             }
             return false;
         }
-
         private bool ContactsWithPaddle()
         {
             if (ball.Position.Y + ball.Height >= paddle.Position.Y)
