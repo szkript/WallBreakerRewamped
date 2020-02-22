@@ -111,7 +111,7 @@ namespace WallBreaker2.GameObjects
 
             return Position + (Direction * fake);
         }
-        private void InverseDirection(Axis axis)
+        public void InverseDirection(Axis axis)
         {
             switch (axis)
             {

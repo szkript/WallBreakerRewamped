@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using System.Windows.Threading;
 using WallBreaker2.GameObjects;
 
 
@@ -22,6 +21,7 @@ namespace WallBreaker2.GameData
         private Canvas WallbreakerCanvas;
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
+        private double CollusionRange = 2;
 
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
@@ -83,23 +83,54 @@ namespace WallBreaker2.GameData
         }
         private bool ContactsWithBrick()
         {
+            Brick RemoveAble = null;
+            Axis inverseAxis = new Axis();
             foreach (Brick brick in Bricks)
             {
-                if (brick.Position.X <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width)
+                // ball top vs brick bottom
+                List<int> ballTopAndBotSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
+                List<int> ballLeftAndRightSide = Enumerable.Range((int)ball.Position.Y, (int)ball.Height).ToList();
+
+                if (brick.Position.Y + brick.Height + CollusionRange >= ball.Position.Y && brick.Position.Y + brick.Height - CollusionRange <= ball.Position.Y &&
+                    ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    if (brick.Position.Y + brick.Height >= ball.Position.Y && ball.Position.Y >= brick.Position.Y)
-                    {
-                        ball.InverseDirection(brick);
-                        Bricks.Remove(brick);
-                        return true;
-                    }
-                    else if (brick.Position.Y <= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height <= brick.Position.Y)
-                    {
-                        ball.InverseDirection(brick);
-                        Bricks.Remove(brick);
-                        return true;
-                    }
+                    Console.WriteLine("brick Bottom contact");
+                    RemoveAble = brick;
+                    inverseAxis = Axis.Y;
                 }
+                // ball bot vs brick top
+                else if (brick.Position.Y + CollusionRange >= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height >= brick.Position.Y - CollusionRange &&
+                    ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
+                {
+                    Console.WriteLine("brick Top contact");
+                    RemoveAble = brick;
+                    inverseAxis = Axis.Y;
+                }
+                // ball left side vs brick right side (y)
+                else if (brick.Position.X - CollusionRange <= ball.Position.X && ball.Position.X + ball.Width <= brick.Position.X + brick.Width &&
+                    ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
+                {
+                    Console.WriteLine("Brick left contact");
+                    RemoveAble = brick;
+                    inverseAxis = Axis.X;
+                }
+                // ball right side vs brick left side (y)
+                else if (brick.Position.X + brick.Width - CollusionRange <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width + CollusionRange &&
+                    ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
+                {
+                    Console.WriteLine("Brick right contact");
+                    RemoveAble = brick;
+                    inverseAxis = Axis.X;
+                }
+
+            }
+
+            // handle brick remove and ball inversion
+            if (RemoveAble != null)
+            {
+                Bricks.Remove(RemoveAble);
+                ball.InverseDirection(inverseAxis);
+                return true;
             }
             return false;
         }
@@ -208,11 +239,12 @@ namespace WallBreaker2.GameData
         private void InitBricks(int NumOfRows)
         {
             Bricks = new List<Brick>();
-            double posTop = 5;
+            // normal val = 5
+            double posTop = 50;
             for (int i = 0; i < NumOfRows; i++)
             {
                 double posLeft = 5;
-                while (WallbreakerCanvas.Width > posLeft + 50)
+                while (WallbreakerCanvas.Width - 100 > posLeft + 50)
                 {
                     Vector2 position = new Vector2((int)posLeft, (int)posTop);
                     Brick brick = new Brick(50, 20, position, WallbreakerCanvas);
