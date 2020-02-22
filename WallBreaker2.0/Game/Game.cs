@@ -23,7 +23,6 @@ namespace WallBreaker2.GameData
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
         private Brick removableBrick;
-        private double sliderCounter;
 
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
@@ -52,45 +51,7 @@ namespace WallBreaker2.GameData
         {
             StartGame();
         }
-        private void ScreenSlideRight(object sender, EventArgs e)
-        {
-            if (sliderCounter <= 15)
-            {
-                foreach (Rectangle item in WallbreakerCanvas.Children)
-                {
-                    item.SetValue(Canvas.LeftProperty, (double)item.GetValue(Canvas.LeftProperty) + sliderCounter);
-                }
-                sliderCounter += 0.1;
-                Console.WriteLine(sliderCounter);
-                return;
-            }
-            DispatcherTimer senderTimer = (DispatcherTimer)sender;
-            senderTimer.Stop();
-            Console.WriteLine("Slide Right done");
-        }
-        private void ScreenSlideLeft(object sender, EventArgs e)
-        {
-            if (sliderCounter >= 1.7)
-            {
-                foreach (Rectangle item in WallbreakerCanvas.Children)
-                {
-                    item.SetValue(Canvas.LeftProperty, (double)item.GetValue(Canvas.LeftProperty) - sliderCounter);
-                }
-                sliderCounter -= 0.1;
-                Console.WriteLine(sliderCounter);
-                return;
-            }
-            DispatcherTimer senderTimer = (DispatcherTimer)sender;
-            senderTimer.Stop();
-            Console.WriteLine("Slide Left done");
-        }
-        private void SlideController(Action<object, EventArgs> action)
-        {
-            DispatcherTimer slideTimer = new DispatcherTimer();
-            slideTimer.Interval = TimeSpan.FromSeconds(0.02);
-            slideTimer.Tick += new EventHandler(action);
-            slideTimer.Start();
-        }
+       
 
         public void CheckCollusion()
         {

@@ -55,6 +55,7 @@ namespace WallBreaker2.GameObjects
         public void InverseDirection(Brick brick)
         {
             //TODO: Szar az egész
+
             //InverseDirection(Axis.X);
             InverseDirection(Axis.Y);
         }
