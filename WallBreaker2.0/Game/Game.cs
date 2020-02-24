@@ -56,14 +56,14 @@ namespace WallBreaker2.GameData
             switch (ballHeight)
             {
                 case (Side.Top):
-                    if (ContactsWithBrick())
+                    if (InRangeOfBrick())
                     {
                         ReRenderCanvas();
                     }
                     break;
                 case (Side.Bottom):
                     if (ContactsWithPaddle()) { ball.InverseDirection(paddle); }
-                    //if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
+                    if (ContactsWithFloor()) { TogglePause(GameState.GameOver); }
                     break;
                 default:
                     break;
@@ -81,7 +81,7 @@ namespace WallBreaker2.GameData
 
             if (Bricks.Count == 0) { TogglePause(GameState.Win); }
         }
-        private bool ContactsWithBrick()
+        private bool InRangeOfBrick()
         {
             Brick RemoveAble = null;
             Axis inverseAxis = new Axis();
