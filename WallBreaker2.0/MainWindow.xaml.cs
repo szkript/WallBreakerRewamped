@@ -45,6 +45,9 @@ namespace WallBreaker2
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            // in case of pressing arrows in menu
+            if (game.ball == null && game.paddle == null){ return; }
+
             switch (e.Key)
             {
                 case Key.Escape:
@@ -72,6 +75,9 @@ namespace WallBreaker2
         }
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
+            // in case of pressing arrows in menu
+            if (game.ball == null && game.paddle == null) { return; }
+
             switch (e.Key)
             {
                 case Key.Left:
