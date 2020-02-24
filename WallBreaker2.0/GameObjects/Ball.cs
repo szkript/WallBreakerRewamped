@@ -30,6 +30,7 @@ namespace WallBreaker2.GameObjects
         }
         public void Move()
         {
+            PositionInBetween();
             if (Position.X < 0 || Position.X > (WallbreakerCanvas.Width - Rectangle.Width)) { Velocity.X = -Velocity.X; }
             if (Position.Y < 0 || Position.Y > (WallbreakerCanvas.Height - Rectangle.Height)) { Velocity.Y = -Velocity.Y; }
 
@@ -37,7 +38,6 @@ namespace WallBreaker2.GameObjects
             Rectangle.SetValue(Canvas.LeftProperty, (double)Position.X);
             Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
         }
-
         internal void InverseDirection(Paddle paddle)
         {
             double paddleMiddle = paddle.Position.X + paddle.Width / 2;
@@ -51,15 +51,6 @@ namespace WallBreaker2.GameObjects
             Position += Direction * Velocity;
             Rectangle.SetValue(Canvas.TopProperty, (double)Position.Y);
         }
-
-        public void InverseDirection(Brick brick)
-        {
-            //TODO: Szar az egész
-
-            //InverseDirection(Axis.X);
-            InverseDirection(Axis.Y);
-        }
-
         internal void SlowMotion()
         {
             if (GameStatusEffect.SlowMotionIsReady)
@@ -102,15 +93,6 @@ namespace WallBreaker2.GameObjects
             Velocity.X = Velocity.X > 0 ? Velocity.X -= nitroSpeed : Velocity.X += nitroSpeed;
             Velocity.Y = Velocity.Y > 0 ? Velocity.Y -= nitroSpeed : Velocity.Y += nitroSpeed;
         }
-        public Vector2 PeekingMove()
-        {
-            Vector2 fake = new Vector2(Velocity.X, Velocity.Y);
-
-            if (Position.X <= 0 || Position.X >= (WallbreakerCanvas.Width - (Width + 5))) { fake.X = -Velocity.X; }
-            if (Position.Y <= 0 || Position.Y >= (WallbreakerCanvas.Height - (Height + 5))) { fake.Y = -Velocity.Y; }
-
-            return Position + (Direction * fake);
-        }
         public void InverseDirection(Axis axis)
         {
             switch (axis)
@@ -122,6 +104,32 @@ namespace WallBreaker2.GameObjects
                     Direction.Y = Direction.Y > Direction.Y + 1 ? Direction.Y : -Direction.Y;
                     break;
             }
+        }
+
+        //TODO: Simulate full move with velocity of 1
+        private Vector2 FakeVelocity(int speed)
+        {
+            Vector2 fakeVelocity = new Vector2(speed,speed);
+            return fakeVelocity;
+        }
+        public Vector2 PeekingMove()
+        {
+            Vector2 fake = new Vector2(Velocity.X, Velocity.Y);
+
+            if (Position.X <= 0 || Position.X >= (WallbreakerCanvas.Width - (Width + 5))) { fake.X = -Velocity.X; }
+            if (Position.Y <= 0 || Position.Y >= (WallbreakerCanvas.Height - (Height + 5))) { fake.Y = -Velocity.Y; }
+
+            return Position + (Direction * fake);
+        }
+        private void PositionInBetween()
+        {
+            int distance = Convert.ToInt32(Vector2.Distance(Position, PeekingMove()));
+            Console.WriteLine($"starting position: {Position}");
+            for (int i = 0; i < distance; i++)
+            {
+                Console.WriteLine($"inner position:");
+            }
+            Console.WriteLine($"final position: {PeekingMove()}");
         }
     }
 }

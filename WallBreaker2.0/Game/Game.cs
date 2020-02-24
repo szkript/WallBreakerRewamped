@@ -198,8 +198,7 @@ namespace WallBreaker2.GameData
                     RestartGame();
                     break;
                 case GameState.Win:
-                    //MessageBox.Show("Kurvajóvagy");
-                    RestartGame();
+                    MessageBox.Show("Kurvajóvagy");
                     break;
                 default:
                     TogglePause();
