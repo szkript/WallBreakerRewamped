@@ -21,7 +21,7 @@ namespace WallBreaker2.GameData
         private Canvas WallbreakerCanvas;
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
-        private double CollusionRange = 2;
+        private double CollusionRange = 7;
 
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
@@ -107,7 +107,7 @@ namespace WallBreaker2.GameData
                     inverseAxis = Axis.Y;
                 }
                 // ball left side vs brick right side (y)
-                else if (brick.Position.X - CollusionRange <= ball.Position.X && ball.Position.X + ball.Width <= brick.Position.X + brick.Width &&
+                else if (brick.Position.X - CollusionRange <= ball.Position.X + ball.Width && ball.Position.X + ball.Width <= brick.Position.X + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick left contact");
@@ -122,7 +122,6 @@ namespace WallBreaker2.GameData
                     RemoveAble = brick;
                     inverseAxis = Axis.X;
                 }
-
             }
 
             // handle brick remove and ball inversion
@@ -196,20 +195,27 @@ namespace WallBreaker2.GameData
                     Paused = false;
                     break;
                 case GameState.Restart:
-                    StopGame();
-                    WallbreakerCanvas.Children.Clear();
-                    GameTimeManager.StopAllTimer();
-                    StartGame();
-                    TogglePause();
+                    RestartGame();
                     break;
                 case GameState.Win:
-                    MessageBox.Show("Kurvajóvagy");
+                    //MessageBox.Show("Kurvajóvagy");
+                    RestartGame();
                     break;
                 default:
                     TogglePause();
                     break;
             }
         }
+
+        private void RestartGame()
+        {
+            StopGame();
+            WallbreakerCanvas.Children.Clear();
+            GameTimeManager.StopAllTimer();
+            StartGame();
+            TogglePause();
+        }
+
         private void TogglePause()
         {
             if (Paused == false)
