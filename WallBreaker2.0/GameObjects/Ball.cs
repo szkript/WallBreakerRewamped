@@ -117,8 +117,8 @@ namespace WallBreaker2.GameObjects
                 float x = Velocity.X > 0 ? i : -i;
                 float y = Velocity.Y > 0 ? i : -i;
                 Vector2 fakeVelocity = new Vector2(x, y);
-                //Vector2 fakePos = Position + (Direction * fakeVelocity);
-                Console.WriteLine($"inner position: {Position + (Direction * fakeVelocity)}");
+                Vector2 fakePos = Position + (Direction * fakeVelocity);
+                Console.WriteLine($"inner position: {fakePos}");
             }
             Console.WriteLine($"final position: {PeekingMove()}");
         }

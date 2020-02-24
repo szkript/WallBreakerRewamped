@@ -58,7 +58,6 @@ namespace WallBreaker2.GameData
                 case (Side.Top):
                     if (InRangeOfBrick())
                     {
-                        ball.SimulateMove();
                         ReRenderCanvas();
                     }
                     break;
@@ -95,6 +94,9 @@ namespace WallBreaker2.GameData
                 if (brick.Position.Y + brick.Height + CollusionRange >= ball.Position.Y && brick.Position.Y + brick.Height - CollusionRange <= ball.Position.Y &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
+                    ball.SimulateMove();
+                    Console.WriteLine($"brick pos: y {brick.Position.Y + brick.Height}, ball pos y: {ball.Position.Y}");
+                    Console.WriteLine($"{brick.Position.X} , {brick.Position.X + brick.Width}");
                     Console.WriteLine("brick Bottom contact");
                     RemoveAble = brick;
                     inverseAxis = Axis.Y;
