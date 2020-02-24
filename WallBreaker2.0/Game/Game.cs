@@ -58,6 +58,7 @@ namespace WallBreaker2.GameData
                 case (Side.Top):
                     if (InRangeOfBrick())
                     {
+                        ball.SimulateMove();
                         ReRenderCanvas();
                     }
                     break;
