@@ -27,6 +27,7 @@ namespace WallBreaker2.GameObjects
             Direction = new Vector2(randomDirX, randomDirY);
             Direction = Vector2.Normalize(Direction);
             AddToCanvas(Rectangle);
+            GameStatusEffect.NitroSpeed += BallBaseSpeed;
         }
         public void Move()
         {
@@ -57,7 +58,7 @@ namespace WallBreaker2.GameObjects
                 GameTimeManager.SlowMotionTimeStart(SlowMotionTimer_Tick);
                 GameTimeManager.SlowMotionCooldownStart(SlowMotionCooldown_tick);
                 GameStatusEffect.SlowMotionIsReady = false;
-                DecreaseSpeedBy(BallBaseSpeed - GameStatusEffect.SlowMotionSpeed);
+                SetSpeed(GameStatusEffect.SlowMotionSpeed);
             }
         }
         void SlowMotionCooldown_tick(object sender, EventArgs e)
@@ -67,21 +68,26 @@ namespace WallBreaker2.GameObjects
         void SlowMotionTimer_Tick(object sender, EventArgs e)
         {
             GameTimeManager.SlowMotionTimeStop();
-            IncreaseSpeedBy(BallBaseSpeed - GameStatusEffect.SlowMotionSpeed);
+            SetSpeed(BallBaseSpeed);
         }
         internal void Nitro()
         {
             if (GameStatusEffect.NitroIsOn) { return; }
 
-            IncreaseSpeedBy(GameStatusEffect.NitroSpeed);
+            SetSpeed(GameStatusEffect.NitroSpeed);
             GameStatusEffect.NitroIsOn = true;
         }
         internal void NitroOff()
         {
-            DecreaseSpeedBy(GameStatusEffect.NitroSpeed);
+            SetSpeed(BallBaseSpeed);
             GameStatusEffect.NitroIsOn = false;
         }
-
+        public void SetSpeed(int speed)
+        {
+            float x = Velocity.X > 0 ? speed : -speed;
+            float y = Velocity.Y > 0 ? speed : -speed;
+            Velocity = new Vector2(x, y);
+        }
         private void IncreaseSpeedBy(int speed)
         {
             Velocity.X = Velocity.X > 0 ? Velocity.X += speed : Velocity.X -= speed;
@@ -111,7 +117,6 @@ namespace WallBreaker2.GameObjects
             int distance = Convert.ToInt32(Vector2.Distance(Position, PeekingMove()));
             
             Console.WriteLine($"starting position: {Position}");
-            //Console.WriteLine($"one step move pos: {fakePos}");
             for (int i = 0; i < distance; i++)
             {
                 float x = Velocity.X > 0 ? i : -i;
@@ -122,6 +127,7 @@ namespace WallBreaker2.GameObjects
             }
             Console.WriteLine($"final position: {PeekingMove()}");
         }
+
         public Vector2 PeekingMove()
         {
             Vector2 fake = new Vector2(Velocity.X, Velocity.Y);
@@ -130,6 +136,23 @@ namespace WallBreaker2.GameObjects
             if (Position.Y <= 0 || Position.Y >= (WallbreakerCanvas.Height - (Height + 5))) { fake.Y = -Velocity.Y; }
 
             return Position + (Direction * fake);
+        }
+
+        internal void PreciseMove()
+        {
+            int distance = Convert.ToInt32(Vector2.Distance(Position, PeekingMove()));
+
+            Console.WriteLine($"starting position: {Position}");
+            //Console.WriteLine($"one step move pos: {fakePos}");
+            for (int i = 0; i < distance; i++)
+            {
+                float x = Velocity.X > 0 ? 1 : -1;
+                float y = Velocity.Y > 0 ? 1 : -1;
+                Vector2 fakeVelocity = new Vector2(x, y);
+                Position += (Direction * fakeVelocity);
+                Console.WriteLine($"inner position: {Position}");
+            }
+            Console.WriteLine($"final position: {PeekingMove()}");
         }
     }
 }
