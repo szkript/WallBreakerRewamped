@@ -182,10 +182,16 @@ namespace WallBreaker2.GameData
             foreach (Brick brick in PossibleBricksInRange)
             {
                 if ((int)ball.Position.Y == brick.Position.Y + brick.Height &&
-            ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
+                    ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    Console.WriteLine("ball y " + (int)ball.Position.Y + " brick pos y: " + (brick.Position.Y + brick.Height));
-                    Console.WriteLine("contact wus here");
+                    Console.WriteLine("bb");
+                    ball.InverseDirection(Axis.Y);
+                    return brick;
+                }
+                else if ((int)ball.Position.Y + ball.Height == brick.Position.Y &&
+                    ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
+                {
+                    Console.WriteLine("bt");
                     ball.InverseDirection(Axis.Y);
                     return brick;
                 }
