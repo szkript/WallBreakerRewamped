@@ -91,28 +91,28 @@ namespace WallBreaker2.GameData
                 if (brick.Position.Y + brick.Height + CollusionRange >= ball.Position.Y && brick.Position.Y + brick.Height - CollusionRange <= ball.Position.Y &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    Console.WriteLine("brick Bottom contact");
+                    Console.WriteLine("brick Bottom In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball bot vs brick top
                 else if (brick.Position.Y + CollusionRange >= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height >= brick.Position.Y - CollusionRange &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    Console.WriteLine("brick Top contact");
+                    Console.WriteLine("brick Top In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball left side vs brick right side (y)
                 else if (brick.Position.X - CollusionRange <= ball.Position.X + ball.Width && ball.Position.X + ball.Width <= brick.Position.X + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
-                    Console.WriteLine("Brick left contact");
+                    Console.WriteLine("Brick left In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball right side vs brick left side (y)
                 else if (brick.Position.X + brick.Width - CollusionRange <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
-                    Console.WriteLine("Brick right contact");
+                    Console.WriteLine("Brick right In range");
                     PossibleBricksInRange.Add(brick);
                 }
             }
@@ -178,21 +178,38 @@ namespace WallBreaker2.GameData
         {
             List<int> ballTopAndBotSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
             List<int> ballLeftAndRightSide = Enumerable.Range((int)ball.Position.Y, (int)ball.Height).ToList();
+            int ballPosY = Convert.ToInt32(ball.Position.Y);
 
             foreach (Brick brick in PossibleBricksInRange)
             {
-                if ((int)ball.Position.Y == brick.Position.Y + brick.Height &&
+                if (ballPosY == brick.Position.Y + brick.Height &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("bb");
                     ball.InverseDirection(Axis.Y);
                     return brick;
                 }
-                else if ((int)ball.Position.Y + ball.Height == brick.Position.Y &&
+                else if (ballPosY + ball.Height == brick.Position.Y &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("bt");
                     ball.InverseDirection(Axis.Y);
+                    return brick;
+                }
+                // from left
+                else if ((int)ball.Position.X + ball.Width == brick.Position.X &&
+                    ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
+                {
+                    Console.WriteLine("bl");
+                    ball.InverseDirection(Axis.X);
+                    return brick;
+                }
+                // from right
+                else if((int)ball.Position.X == brick.Position.X+brick.Width &&
+                    ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
+                {
+                    Console.WriteLine("br");
+                    ball.InverseDirection(Axis.X);
                     return brick;
                 }
             }
