@@ -157,9 +157,7 @@ namespace WallBreaker2.GameData
                     ball.Move();
                     if (ContactBrick())
                     {
-                        ball.InverseDirection(Axis.Y);
                         contacted = true;
-
                     }
                 }
                 ball.SetSpeed(GameSettings.BallBaseSpeed);
@@ -186,6 +184,7 @@ namespace WallBreaker2.GameData
             if ((int)ball.Position.Y == BrickInRange.Position.Y + BrickInRange.Height && ballTopAndBotSide.Any(x => BrickInRange.Position.X <= x && x <= BrickInRange.Position.X + BrickInRange.Width))
             {
                 Console.WriteLine("contact wus here");
+                ball.InverseDirection(Axis.Y);
                 return true;
             }
             return false;
