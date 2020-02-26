@@ -96,24 +96,6 @@ namespace WallBreaker2.GameObjects
                     break;
             }
         }
-
-        //TODO: Simulate full move with velocity of 1
-        public void SimulateMove()
-        {
-            int distance = Convert.ToInt32(Vector2.Distance(Position, PeekingMove()));
-            
-            Console.WriteLine($"starting position: {Position}");
-            for (int i = 0; i < distance; i++)
-            {
-                float x = Velocity.X > 0 ? i : -i;
-                float y = Velocity.Y > 0 ? i : -i;
-                Vector2 fakeVelocity = new Vector2(x, y);
-                Vector2 fakePos = Position + (Direction * fakeVelocity);
-                Console.WriteLine($"inner position: {fakePos}");
-            }
-            Console.WriteLine($"final position: {PeekingMove()}");
-        }
-
         public Vector2 PeekingMove()
         {
             Vector2 fake = new Vector2(Velocity.X, Velocity.Y);
@@ -122,23 +104,6 @@ namespace WallBreaker2.GameObjects
             if (Position.Y <= 0 || Position.Y >= (WallbreakerCanvas.Height - (Height + 5))) { fake.Y = -Velocity.Y; }
 
             return Position + (Direction * fake);
-        }
-
-        internal void PreciseMove()
-        {
-            int distance = Convert.ToInt32(Vector2.Distance(Position, PeekingMove()));
-
-            Console.WriteLine($"starting position: {Position}");
-            //Console.WriteLine($"one step move pos: {fakePos}");
-            for (int i = 0; i < distance; i++)
-            {
-                float x = Velocity.X > 0 ? 1 : -1;
-                float y = Velocity.Y > 0 ? 1 : -1;
-                Vector2 fakeVelocity = new Vector2(x, y);
-                Position += (Direction * fakeVelocity);
-                Console.WriteLine($"inner position: {Position}");
-            }
-            Console.WriteLine($"final position: {PeekingMove()}");
         }
     }
 }
