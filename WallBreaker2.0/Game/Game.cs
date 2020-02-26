@@ -291,11 +291,11 @@ namespace WallBreaker2.GameData
         {
             Bricks = new List<Brick>();
             // normal val = 5
-            double posTop = 50;
+            double posTop = 5;
             for (int i = 0; i < NumOfRows; i++)
             {
                 double posLeft = 5;
-                while (WallbreakerCanvas.Width - 100 > posLeft + 50)
+                while (WallbreakerCanvas.Width > posLeft + 50)
                 {
                     Vector2 position = new Vector2((int)posLeft, (int)posTop);
                     Brick brick = new Brick(50, 20, position, WallbreakerCanvas);
