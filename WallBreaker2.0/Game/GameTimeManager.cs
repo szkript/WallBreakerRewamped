@@ -10,8 +10,8 @@ namespace WallBreaker2.GameData
         private static DispatcherTimer slowMotionCooldownTimer;
         private static DispatcherTimer slowMotionTimer;
         private static DispatcherTimer gameStartDelay;
-        private static readonly double SlowTimeAmmount = 5;
-        private static readonly double SlowMotionCooldown = SlowTimeAmmount *2;
+        private static readonly double SlowTimeAmmount = 2;
+        private static readonly double SlowMotionCooldown = SlowTimeAmmount * 2;
 
         internal static void StartGame(Action<object, EventArgs> gameLoop)
         {
@@ -75,7 +75,7 @@ namespace WallBreaker2.GameData
                 gameloopTimer.Stop();
                 GameStatusEffect.SlowMotionIsReady = true;
             }
-            catch (Exception e)
+            catch (NullReferenceException e)
             {
                 Console.WriteLine(e.Message);
             }

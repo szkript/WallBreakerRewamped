@@ -22,7 +22,8 @@ namespace WallBreaker2.GameData
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
         private double CollusionRange = 7;
-        private bool brickInRange = false;
+        private Brick BrickInRange = null;
+
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
             WallbreakerCanvas = wallbreakerCanvas;
@@ -56,10 +57,8 @@ namespace WallBreaker2.GameData
             switch (ballHeight)
             {
                 case (Side.Top):
-                    if (InRangeOfBrick())
-                    {
-                        ReRenderCanvas();
-                    }
+                    BrickRangeChecker();
+                    ReRenderCanvas();
                     break;
                 case (Side.Bottom):
                     if (ContactsWithPaddle()) { ball.InverseDirection(paddle); }
@@ -81,10 +80,8 @@ namespace WallBreaker2.GameData
 
             if (Bricks.Count == 0) { TogglePause(GameState.Win); }
         }
-        private bool InRangeOfBrick()
+        private void BrickRangeChecker()
         {
-            Brick RemoveAble = null;
-            Axis inverseAxis = new Axis();
             List<int> ballTopAndBotSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
             List<int> ballLeftAndRightSide = Enumerable.Range((int)ball.Position.Y, (int)ball.Height).ToList();
 
@@ -95,53 +92,30 @@ namespace WallBreaker2.GameData
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("brick Bottom contact");
-                    //ball.SimulateMove();
-                    //Console.WriteLine($"brick pos: y {brick.Position.Y + brick.Height}, ball pos y: {ball.Position.Y}");
-                    //Console.WriteLine($"{brick.Position.X} , {brick.Position.X + brick.Width}");
-                    //RemoveAble = brick;
-                    //inverseAxis = Axis.Y;
-                    brickInRange = true;
+                    BrickInRange = brick;
                 }
                 // ball bot vs brick top
                 else if (brick.Position.Y + CollusionRange >= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height >= brick.Position.Y - CollusionRange &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("brick Top contact");
-                    brickInRange = true;
-
-                    //RemoveAble = brick;
-                    //inverseAxis = Axis.Y;
+                    BrickInRange = brick;
                 }
                 // ball left side vs brick right side (y)
                 else if (brick.Position.X - CollusionRange <= ball.Position.X + ball.Width && ball.Position.X + ball.Width <= brick.Position.X + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick left contact");
-                    brickInRange = true;
-
-                    //RemoveAble = brick;
-                    //inverseAxis = Axis.X;
+                    BrickInRange = brick;
                 }
                 // ball right side vs brick left side (y)
                 else if (brick.Position.X + brick.Width - CollusionRange <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick right contact");
-                    brickInRange = true;
-
-                    //RemoveAble = brick;
-                    //inverseAxis = Axis.X;
+                    BrickInRange = brick;                
                 }
             }
-
-            // handle brick remove and ball inversion
-            if (RemoveAble != null)
-            {
-                Bricks.Remove(RemoveAble);
-                //ball.InverseDirection(inverseAxis);
-                return true;
-            }
-            return false;
         }
         private bool ContactsWithPaddle()
         {
@@ -173,16 +147,7 @@ namespace WallBreaker2.GameData
             if (Paused) { return; }
 
             CheckCollusion();
-
-            //if (brickInRange)
-            //{
-            //    ball.PreciseMove();
-            //    brickInRange = false;
-            //}
-            //else
-            //{
             ball.Move();
-            //}
             paddle.MovePaddle();
         }
         public void TogglePause(GameState pauseState)

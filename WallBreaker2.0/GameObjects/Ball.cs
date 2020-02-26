@@ -84,19 +84,8 @@ namespace WallBreaker2.GameObjects
         }
         public void SetSpeed(int speed)
         {
-            float x = Velocity.X > 0 ? speed : -speed;
-            float y = Velocity.Y > 0 ? speed : -speed;
-            Velocity = new Vector2(x, y);
-        }
-        private void IncreaseSpeedBy(int speed)
-        {
-            Velocity.X = Velocity.X > 0 ? Velocity.X += speed : Velocity.X -= speed;
-            Velocity.Y = Velocity.Y > 0 ? Velocity.Y += speed : Velocity.Y -= speed;
-        }
-        private void DecreaseSpeedBy(int speed)
-        {
-            Velocity.X = Velocity.X > 0 ? Velocity.X -= speed : Velocity.X += speed;
-            Velocity.Y = Velocity.Y > 0 ? Velocity.Y -= speed : Velocity.Y += speed;
+            Velocity.X = Velocity.X > 0 ? speed : -speed;
+            Velocity.Y = Velocity.Y > 0 ? speed : -speed;
         }
         public void InverseDirection(Axis axis)
         {
