@@ -22,7 +22,7 @@ namespace WallBreaker2.GameData
         private Canvas MenuCanvas;
         private int RowOfBricks = 6;
         private double CollusionRange = 7;
-        private Brick BrickInRange = null;
+        private List<Brick> PossibleBricksInRange = new List<Brick>();
 
         public Game(Canvas wallbreakerCanvas, Canvas menuCanvas)
         {
@@ -92,28 +92,28 @@ namespace WallBreaker2.GameData
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("brick Bottom contact");
-                    BrickInRange = brick;
+                    PossibleBricksInRange.Add(brick);
                 }
                 // ball bot vs brick top
                 else if (brick.Position.Y + CollusionRange >= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height >= brick.Position.Y - CollusionRange &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
                     Console.WriteLine("brick Top contact");
-                    BrickInRange = brick;
+                    PossibleBricksInRange.Add(brick);
                 }
                 // ball left side vs brick right side (y)
                 else if (brick.Position.X - CollusionRange <= ball.Position.X + ball.Width && ball.Position.X + ball.Width <= brick.Position.X + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick left contact");
-                    BrickInRange = brick;
+                    PossibleBricksInRange.Add(brick);
                 }
                 // ball right side vs brick left side (y)
                 else if (brick.Position.X + brick.Width - CollusionRange <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick right contact");
-                    BrickInRange = brick;
+                    PossibleBricksInRange.Add(brick);
                 }
             }
         }
@@ -147,24 +147,24 @@ namespace WallBreaker2.GameData
             if (Paused) { return; }
 
             CheckCollusion();
-            if (BrickInRange != null)
+            if (PossibleBricksInRange.Count > 0)
             {
-                bool contacted = false;
+                Brick contacted = null;
                 int distance = Convert.ToInt32(Vector2.Distance(ball.Position, ball.PeekingMove()));
                 ball.SetSpeed(1);
                 for (int i = 0; i < distance; i++)
                 {
                     ball.Move();
-                    if (ContactBrick())
+                    if (contacted == null)
                     {
-                        contacted = true;
+                        contacted = ContactBrick();
                     }
                 }
                 ball.SetSpeed(GameSettings.BallBaseSpeed);
-                if (contacted)
+                if (contacted != null)
                 {
-                    Bricks.Remove(BrickInRange);
-                    BrickInRange = null;
+                    Bricks.Remove(contacted);
+                    PossibleBricksInRange.Clear();
                 }
             }
             else
@@ -174,20 +174,23 @@ namespace WallBreaker2.GameData
             paddle.MovePaddle();
         }
 
-        private bool ContactBrick()
+        private Brick ContactBrick()
         {
             List<int> ballTopAndBotSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
             List<int> ballLeftAndRightSide = Enumerable.Range((int)ball.Position.Y, (int)ball.Height).ToList();
 
-            Console.WriteLine("ball y " + (int)ball.Position.Y);
-            Console.WriteLine("brick y+height " + (BrickInRange.Position.Y + BrickInRange.Height));
-            if ((int)ball.Position.Y == BrickInRange.Position.Y + BrickInRange.Height && ballTopAndBotSide.Any(x => BrickInRange.Position.X <= x && x <= BrickInRange.Position.X + BrickInRange.Width))
+            foreach (Brick brick in PossibleBricksInRange)
             {
-                Console.WriteLine("contact wus here");
-                ball.InverseDirection(Axis.Y);
-                return true;
+                if ((int)ball.Position.Y == brick.Position.Y + brick.Height &&
+            ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
+                {
+                    Console.WriteLine("ball y " + (int)ball.Position.Y + " brick pos y: " + (brick.Position.Y + brick.Height));
+                    Console.WriteLine("contact wus here");
+                    ball.InverseDirection(Axis.Y);
+                    return brick;
+                }
             }
-            return false;
+            return null;
         }
 
         public void TogglePause(GameState pauseState)
