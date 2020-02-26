@@ -113,7 +113,7 @@ namespace WallBreaker2.GameData
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
                     Console.WriteLine("Brick right contact");
-                    BrickInRange = brick;                
+                    BrickInRange = brick;
                 }
             }
         }
@@ -147,7 +147,20 @@ namespace WallBreaker2.GameData
             if (Paused) { return; }
 
             CheckCollusion();
-            ball.Move();
+            if (BrickInRange != null)
+            {
+                int distance = Convert.ToInt32(Vector2.Distance(ball.Position, ball.PeekingMove()));
+                ball.SetSpeed(1);
+                for (int i = 0; i < distance; i++)
+                {
+                    ball.Move();
+                }
+                //ball.SetSpeed()
+            }
+            else
+            {
+                ball.Move();
+            }
             paddle.MovePaddle();
         }
         public void TogglePause(GameState pauseState)

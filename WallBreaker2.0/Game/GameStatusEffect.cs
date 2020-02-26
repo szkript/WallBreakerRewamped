@@ -7,9 +7,5 @@
         public static int NitroSpeed = 10;
         public static readonly int SlowMotionSpeed = 1;
 
-        public GameStatusEffect()
-        {
-
-        }
     }
 }

@@ -12,22 +12,19 @@ namespace WallBreaker2.GameObjects
     public class Ball : GameObject
     {
         private Vector2 Velocity;
-        private int BallBaseSpeed = 6;
-
         public Vector2 Direction;
 
         public Ball(double width, double height, Canvas wallbreakerCanvas, double offset) : base(width, height, wallbreakerCanvas)
         {
             Rectangle = CreateRectangle(Brushes.Black, Brushes.Black);
             Position = new Vector2((float)WallbreakerCanvas.Width / 2 - (float)Rectangle.Width / 2, (float)offset);
-            Velocity = new Vector2(BallBaseSpeed, BallBaseSpeed);
+            Velocity = new Vector2(GameSettings.BallBaseSpeed, GameSettings.BallBaseSpeed);
             Random random = new Random();
             int randomDirX = -100 + random.Next(0, 201);
             int randomDirY = 0 + random.Next(0, 201);
             Direction = new Vector2(randomDirX, randomDirY);
             Direction = Vector2.Normalize(Direction);
             AddToCanvas(Rectangle);
-            GameStatusEffect.NitroSpeed += BallBaseSpeed;
         }
         public void Move()
         {
@@ -68,7 +65,7 @@ namespace WallBreaker2.GameObjects
         void SlowMotionTimer_Tick(object sender, EventArgs e)
         {
             GameTimeManager.SlowMotionTimeStop();
-            SetSpeed(BallBaseSpeed);
+            SetSpeed(GameSettings.BallBaseSpeed);
         }
         internal void Nitro()
         {
@@ -79,7 +76,7 @@ namespace WallBreaker2.GameObjects
         }
         internal void NitroOff()
         {
-            SetSpeed(BallBaseSpeed);
+            SetSpeed(GameSettings.BallBaseSpeed);
             GameStatusEffect.NitroIsOn = false;
         }
         public void SetSpeed(int speed)

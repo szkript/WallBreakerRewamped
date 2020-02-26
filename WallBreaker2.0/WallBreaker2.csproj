@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Game\GameSettings.cs" />
     <Compile Include="Game\Rectanle.cs" />
     <Compile Include="Utils\Slider.cs" />
     <Page Include="MainWindow.xaml">
