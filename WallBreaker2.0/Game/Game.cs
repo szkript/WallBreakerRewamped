@@ -91,28 +91,24 @@ namespace WallBreaker2.GameData
                 if (brick.Position.Y + brick.Height + CollusionRange >= ball.Position.Y && brick.Position.Y + brick.Height - CollusionRange <= ball.Position.Y &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    Console.WriteLine("brick Bottom In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball bot vs brick top
                 else if (brick.Position.Y + CollusionRange >= ball.Position.Y + ball.Height && ball.Position.Y + ball.Height >= brick.Position.Y - CollusionRange &&
                     ballTopAndBotSide.Any(x => brick.Position.X <= x && x <= brick.Position.X + brick.Width))
                 {
-                    Console.WriteLine("brick Top In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball left side vs brick right side (y)
                 else if (brick.Position.X - CollusionRange <= ball.Position.X + ball.Width && ball.Position.X + ball.Width <= brick.Position.X + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
-                    Console.WriteLine("Brick left In range");
                     PossibleBricksInRange.Add(brick);
                 }
                 // ball right side vs brick left side (y)
                 else if (brick.Position.X + brick.Width - CollusionRange <= ball.Position.X && ball.Position.X <= brick.Position.X + brick.Width + CollusionRange &&
                     ballLeftAndRightSide.Any(y => brick.Position.Y <= y && y <= brick.Position.Y + brick.Height))
                 {
-                    Console.WriteLine("Brick right In range");
                     PossibleBricksInRange.Add(brick);
                 }
             }
@@ -295,11 +291,11 @@ namespace WallBreaker2.GameData
         {
             Bricks = new List<Brick>();
             // normal val = 5
-            double posTop = 5;
+            double posTop = 50;
             for (int i = 0; i < NumOfRows; i++)
             {
                 double posLeft = 5;
-                while (WallbreakerCanvas.Width > posLeft + 50)
+                while (WallbreakerCanvas.Width - 100 > posLeft + 50)
                 {
                     Vector2 position = new Vector2((int)posLeft, (int)posTop);
                     Brick brick = new Brick(50, 20, position, WallbreakerCanvas);
