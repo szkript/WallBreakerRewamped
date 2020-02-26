@@ -149,13 +149,25 @@ namespace WallBreaker2.GameData
             CheckCollusion();
             if (BrickInRange != null)
             {
+                bool contacted = false;
                 int distance = Convert.ToInt32(Vector2.Distance(ball.Position, ball.PeekingMove()));
                 ball.SetSpeed(1);
                 for (int i = 0; i < distance; i++)
                 {
                     ball.Move();
+                    if (ContactBrick())
+                    {
+                        ball.InverseDirection(Axis.Y);
+                        contacted = true;
+
+                    }
                 }
-                //ball.SetSpeed()
+                ball.SetSpeed(GameSettings.BallBaseSpeed);
+                if (contacted)
+                {
+                    Bricks.Remove(BrickInRange);
+                    BrickInRange = null;
+                }
             }
             else
             {
@@ -163,6 +175,22 @@ namespace WallBreaker2.GameData
             }
             paddle.MovePaddle();
         }
+
+        private bool ContactBrick()
+        {
+            List<int> ballTopAndBotSide = Enumerable.Range((int)ball.Position.X, (int)ball.Width).ToList();
+            List<int> ballLeftAndRightSide = Enumerable.Range((int)ball.Position.Y, (int)ball.Height).ToList();
+
+            Console.WriteLine("ball y " + (int)ball.Position.Y);
+            Console.WriteLine("brick y+height " + (BrickInRange.Position.Y + BrickInRange.Height));
+            if ((int)ball.Position.Y == BrickInRange.Position.Y + BrickInRange.Height && ballTopAndBotSide.Any(x => BrickInRange.Position.X <= x && x <= BrickInRange.Position.X + BrickInRange.Width))
+            {
+                Console.WriteLine("contact wus here");
+                return true;
+            }
+            return false;
+        }
+
         public void TogglePause(GameState pauseState)
         {
             TogglePause();
